@@ -44,7 +44,7 @@ function createAxes(g, xAxis, yAxis, height) {
  */
 function createBarChart(g, currentData, x, y, color, tip, height) {
     console.log(currentData)
-    
+
     g.selectAll("rect")
      .data(currentData)
      .enter()
@@ -52,7 +52,14 @@ function createBarChart(g, currentData, x, y, color, tip, height) {
      .style("fill", d => color(d.columns))
      .attr("x", d =>  x(d.columns))
      .attr("width", x.bandwidth())
-     .attr("y", d => y(d.weights))
-     .attr("height",  d => height - y(d.weights));
+     .attr("y",  d => { return height; })
+    .attr("height", 0)
+    .transition()
+    .duration(750)
+    .delay(function (d, i) {
+        return i * 150;
+    })
+    .attr("y",  d => { return y(d.weights); })
+    .attr("height",  d => { return height - y(d.weights); });
 
 }
