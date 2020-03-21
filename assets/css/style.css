@@ -1,0 +1,65 @@
+/***** General style *****/
+body {
+  display: table;
+  margin: 20px auto auto;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+h1 {
+  font-size: 1.2em;
+  margin: 15px 0 20px 0;
+}
+
+.row {
+  display: flex;
+}
+
+.row > .col {
+  flex: 1;
+}
+
+/***** Tabs *****/
+.tabs {
+  width: 1000px;
+  border: 1px solid #666;
+}
+
+.tabs > .header {
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-align: center;
+  line-height: 30px;
+  border-bottom: 1px solid #666;
+}
+
+.tabs > .header > li {
+  background-color: #e6e7e8;
+  cursor: pointer;
+}
+
+.tabs > .header > li:not(:last-child) {
+  border-right: 1px solid #666;
+}
+
+.tabs > .header > li.active {
+  color: #fff;
+  background-color: #4c7d95;
+}
+
+.tabs > .content > .tab {
+  display: none;
+  width: 100%;
+  padding: 20px 10px 10px 10px;
+  box-sizing: border-box;
+}
+
+.tabs > .content {
+  text-align: center;
+}
+
+.tabs > .content > .tab.visible {
+  display: block;
+}

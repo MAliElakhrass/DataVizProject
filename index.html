@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>INF8808 - Projet FInal</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <h1>YedSoft</h1>
+  <div class="tabs">
+    <ul class="header row">
+      <li class="col active">Bubble Chart Clustering</li>
+      <li class="col">Parameter Weights Diagram</li>
+      <li class="col">Correlation Between Attributes</li>
+    </ul>
+
+    <div class="content">
+      <section class="tab visible" aria-label="Bubble Chart Clustering">
+      </section>
+      <section class="tab" aria-label="Parameter Weights Diagram">
+        <svg id="bar-chart-svg"></svg>
+      </section>
+      <section class="tab" aria-label="Correlation Attributes">
+      </section>
+    </div>
+  </div>
+    
+  <script type="text/javascript" src="assets/libs/d3.js"></script>
+
+  <script type="text/javascript" src="assets/scripts/main.js"></script>
+</body>
