@@ -79,3 +79,33 @@ function getToolTipText(d, data, formatDecimal) {
     var total = d3.sum(data, d => d.weights);
     return formatDecimal(d.weights) + " (" + formatDecimal(d.weights/total) + ")";
 }
+
+function transition(g, newData, x, y, color, xAxis, barChartHeight, tip) {
+    g.select('.x.axis')
+     .transition()
+     .duration(750)
+     .call(xAxis);
+
+    var bars = g.selectAll("rect")
+                .remove()
+                .exit()
+                .data(newData)
+                .enter()
+                .append("rect")
+                .style("fill", d => color(d.columns))
+                .attr("x", d =>  x(d.columns))
+                .attr("width", x.bandwidth())
+                .attr("y",  d => { return barChartHeight; })
+                .attr("height", 0);
+
+    bars.transition()
+        .duration(1000)
+        .delay(function (d, i) {
+            return i * 150;
+        })
+        .attr("y",  d => { return y(d.weights); })
+        .attr("height",  d => { return barChartHeight - y(d.weights); });
+
+    bars.on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
+}
