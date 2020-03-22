@@ -42,24 +42,40 @@ function createAxes(g, xAxis, yAxis, height) {
  * @param tip           Tooltip to show when a bar has been hovered.
  * @param height        Height of the graphic.
  */
-function createBarChart(g, currentData, x, y, color, tip, height) {
-    console.log(currentData)
+function createBarChart(g, data, x, y, color, tip, height) {
 
-    g.selectAll("rect")
-     .data(currentData)
-     .enter()
-     .append("rect")
-     .style("fill", d => color(d.columns))
-     .attr("x", d =>  x(d.columns))
-     .attr("width", x.bandwidth())
-     .attr("y",  d => { return height; })
-    .attr("height", 0)
-    .transition()
-    .duration(750)
-    .delay(function (d, i) {
-        return i * 150;
-    })
-    .attr("y",  d => { return y(d.weights); })
-    .attr("height",  d => { return height - y(d.weights); });
+    var bars = g.selectAll(".bar")
+                .data(data)
+                .enter()
+                .append("rect")
+                .style("fill", d => color(d.columns))
+                .attr("x", d =>  x(d.columns))
+                .attr("width", x.bandwidth())
+                .attr("y",  d => { return height; })
+                .attr("height", 0);
 
+    bars.transition()
+        .duration(750)
+        .delay(function (d, i) {
+            return i * 150;
+        })
+        .attr("y",  d => { return y(d.weights); })
+        .attr("height",  d => { return height - y(d.weights); });
+
+    bars.on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
+
+}
+
+/**
+ * Returns the appropriate text for the tooltip.
+ *
+ * @param d               Data associated to the currently hovered bar.
+ * @param currentData     Data currently used.
+ * @param formatPercent   Function allowing to correctly format a percentage.
+ * @return {string}       Tooltip's text to be shown.
+ */
+function getToolTipText(d, data, formatDecimal) {
+    var total = d3.sum(data, d => d.weights);
+    return formatDecimal(d.weights) + " (" + formatDecimal(d.weights/total) + ")";
 }

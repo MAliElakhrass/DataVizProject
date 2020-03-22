@@ -19,7 +19,6 @@
         });
     });
 
-
     /***** Configuration *****/
     var barChartMargin = {
         top: 55,
@@ -31,13 +30,13 @@
     var barChartHeight = 550 - barChartMargin.top - barChartMargin.bottom;
 
     /***** Scales *****/
-    var formatPercent = d3.format(".0%");
+    var formatDecimal = d3.format(",.2f");
     var color = d3.scaleOrdinal(d3.schemeCategory10);
     var x = d3.scaleBand().range([0, barChartWidth]).round(0.05);
     var y = d3.scaleSqrt().range([barChartHeight, 0]);
 
     var xAxis = d3.axisBottom(x);
-    var yAxis = d3.axisLeft(y).tickFormat(formatPercent);
+    var yAxis = d3.axisLeft(y).tickFormat(formatDecimal);
 
     /***** Creation Bar chart elements *****/
     var barChartSvg = d3.select("#bar-chart-svg")
@@ -49,11 +48,6 @@
 
     /***** Load data *****/
     d3.csv("./data/weights.csv").then(function (data) {
-        var currentData = data[0];
-        var tip = d3.tip()
-                    .attr('class', 'd3-tip')
-                    .offset([-10, 0]);
-        
         /***** Data preprocessing *****/
         parseWeight(data);
         domainX(x, data);
@@ -61,8 +55,15 @@
         domainColor(color, data);
 
         /***** Creation of the bar chart *****/
+        var tip = d3.tip()
+                    .attr('class', 'd3-tip')
+                    .offset([-10, 0]);
+        tip.html(function(d) {
+            return getToolTipText.call(this, d, data, formatDecimal);
+        });
+        barChartSvg.call(tip);
         createAxes(barChartGroup, xAxis, yAxis, barChartHeight);
-        createBarChart(barChartGroup, data, x, y, color, tip, barChartHeight);
+        createBarChart(barChartGroup, data, x, y, color, tip, barChartHeight, formatDecimal);
 
     })
 
