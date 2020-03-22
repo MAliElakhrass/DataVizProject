@@ -24,27 +24,17 @@
 
       <section class="tab visible" aria-label="Parameter Weights Diagram">
         <div class="subtabs">
-          
           <ul class="subheader row">
             <li class="col active">Non Sales parameters</li>
             <li class="col">Sales parameters</li>
           </ul>
-
           <div class="subcontent">
+            <div class="row">
+              <div class="label">Sort By:</div>
+              <select class="col" name="sort" title="Sort By"></select>
+            </div>
             <svg id="bar-chart-svg"></svg>
-            <!--
-            <section class="subtab visible" aria-label="Non Sales parameters">
-              <label >yed</label>
-              <svg id="bar-chart-svg-nsp"></svg>
-            </section>
-            <section class="subtab" aria-label="Sales parameters">
-              <svg id="bar-chart-svg-sp"></svg>
-            </section>
-          -->
           </div>
-
-          
-        
         </div>
       </section>
       
@@ -59,44 +49,3 @@
   <script type="text/javascript" src="assets/scripts/1-preproc.js"></script>
   <script type="text/javascript" src="assets/scripts/2-bar-chart.js"></script>
 </body>
-
-<!--
-
-<div class="btn-group">
-          <button class="active">Non sales parameters</button>
-          <button>Sales parameters</button>
-        </div>
-        <section class="btn visible" aria-label="Non Sales parameters">
-          <svg id="bar-chart-svg-nsp"></svg>
-        </section>
-        <section class="btn" aria-label="Sales parameters">
-          <svg id="bar-chart-svg-sp"></svg>
-        </section>
-
-
-
-/***** Buttons *****/
-.btn-group button {
-  background-color: #4CAF50;
-  border: 1px solid green;
-  color: white;
-  padding: 10px 24px;
-  cursor: pointer;
-  float: left;
-}
-
-.btn-group:after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.btn-group button:not(:last-child) {
-  border-right: none;
-}
-
-.btn-group button:hover {
-  background-color: #3e8e41;
-}
-
--->

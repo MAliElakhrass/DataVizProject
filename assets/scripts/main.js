@@ -59,6 +59,7 @@ function preprocessing(data, x, y, color) {
     var files = ["./data/weights_nonsale.csv", "./data/weights_sale.csv"]
     Promise.all(files.map(url => d3.csv(url))).then(function (results) {
         var currentData = results[0];
+        results, currentData = sort(results, currentData, 0);
 
         /***** Data preprocessing *****/
         preprocessing(currentData, x, y, color);
@@ -71,8 +72,28 @@ function preprocessing(data, x, y, color) {
             return getToolTipText.call(this, d, currentData, formatDecimal);
         });
         barChartSvg.call(tip);
-        createAxes(barChartGroup, xAxis, yAxis, barChartHeight);
+        createAxes(barChartGroup, xAxis, yAxis, barChartWidth, barChartHeight);
         createBarChart(barChartGroup, currentData, x, y, color, tip, barChartHeight, formatDecimal);
+
+        /***** Add selection *****/
+        var selections = ['Attribute name', 'Ascending', 'Descending']
+        d3.select("select")
+        .on("change", function () {
+            selectOptions = d3.select(this).property("value");
+            results, currentData = sort(results, currentData, selectOptions);
+            domainX(x, currentData);
+            transition(barChartGroup, currentData, x, y, color, xAxis, barChartHeight, tip);
+        })
+        .selectAll("option")
+        .data(selections)
+        .enter()
+        .append("option")
+        .attr("value", function(d, i) {
+            return i;
+        })
+        .text(function (d, i) {
+            return selections[i]
+        })
 
         /***** Change dataset *****/
         subtabs.on("click", function (d, i) {

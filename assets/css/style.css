@@ -19,6 +19,24 @@ h1 {
   flex: 1;
 }
 
+.label {
+  text-align: left;
+  line-height: 24px;
+  flex-basis: 150px;
+}
+
+select {
+  width: 100%;
+}
+
+.label,
+select {
+  margin-top: 25px;
+  padding: 5px;
+  font-size: 1.1em;
+}
+
+
 /***** Tabs *****/
 .tabs {
   width: 1000px;
@@ -27,7 +45,6 @@ h1 {
 
 .subtabs {
   width: 750;
-  border: 1px solid #666;
 }
 
 .tabs > .header {
@@ -47,7 +64,7 @@ h1 {
   list-style: none;
   text-align: center;
   line-height: 30px;
-  border-bottom: 1px solid #666;
+  border: 1px solid #666;
 }
 
 .tabs > .header > li {

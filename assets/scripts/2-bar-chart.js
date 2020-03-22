@@ -12,23 +12,32 @@
  * @param yAxis   Y axis.
  * @param height  Height of the graphic.
  */
-function createAxes(g, xAxis, yAxis, height) {
-  g.append("g")
-    .attr("class", "axis x")
-    .attr("transform", "translate(" + 0 + "," + height + ")")
-    .call(xAxis)
-    .selectAll("text")
-    .attr("transform", "rotate(30) ")
-    .style("text-anchor", "start");
+function createAxes(g, xAxis, yAxis, width, height) {
+    g.append("g")
+     .attr("class", "axis x")
+     .attr("transform", "translate(" + 0 + "," + height + ")")
+     .call(xAxis)    
+     .selectAll("text")
+     .attr("transform", "rotate(30) ")
+     .style("text-anchor", "start");
 
-  g.append("g")
-    .attr("class", "axis y")
-    .call(yAxis)
-    .append("text")
-    .text('Coefficient')
-    .attr("fill", "#000")
-    .style("text-anchor", "middle")
-    .attr("transform", "translate(0,-10)");
+    g.append("text")             
+     .attr("transform", "translate(" + (width/2) + " ," +  (height + 75) + ")")
+     .style("text-anchor", "middle")
+     .text("Parameters");
+
+    g.append("g")
+     .attr("class", "axis y")
+     .call(yAxis);
+
+    g.append("text")
+     .attr("transform", "rotate(-90)")
+     .attr("y", -50)
+     .attr("x", -(height / 2))
+     .attr("dy", "1em")
+     .style("text-anchor", "middle")
+     .text("Coefficient");  
+
 }
 
 /**
@@ -80,11 +89,23 @@ function getToolTipText(d, data, formatDecimal) {
     return formatDecimal(d.weights) + " (" + formatDecimal(d.weights/total) + ")";
 }
 
-function transition(g, newData, x, y, color, xAxis, barChartHeight, tip) {
+/**
+ * Transition when updating data
+ *
+ * @param g             The SVG group in which the bar chart has to be drawn.
+ * @param newData       New data to use.
+ * @param x             Scale to use for the X axis.
+ * @param y             Scale to use for the Y axis.
+ * @param color         Color scale associating a color to a BIXI station name.
+ * @param tip           Tooltip to show when a bar has been hovered.
+ * @param height        Height of the graphic.
+ */
+function transition(g, newData, x, y, color, xAxis, height, tip) {
     g.select('.x.axis')
-     .transition()
-     .duration(750)
-     .call(xAxis);
+     .call(xAxis)
+     .selectAll("text")
+     .attr("transform", "rotate(30) ")
+     .style("text-anchor", "start");
 
     var bars = g.selectAll("rect")
                 .remove()
@@ -95,7 +116,7 @@ function transition(g, newData, x, y, color, xAxis, barChartHeight, tip) {
                 .style("fill", d => color(d.columns))
                 .attr("x", d =>  x(d.columns))
                 .attr("width", x.bandwidth())
-                .attr("y",  d => { return barChartHeight; })
+                .attr("y",  d => { return height; })
                 .attr("height", 0);
 
     bars.transition()
@@ -104,7 +125,7 @@ function transition(g, newData, x, y, color, xAxis, barChartHeight, tip) {
             return i * 150;
         })
         .attr("y",  d => { return y(d.weights); })
-        .attr("height",  d => { return barChartHeight - y(d.weights); });
+        .attr("height",  d => { return height - y(d.weights); });
 
     bars.on('mouseover', tip.show)
         .on('mouseout', tip.hide);
