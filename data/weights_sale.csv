@@ -1,0 +1,5 @@
+columns,weights
+NA_Sales,1.0
+EU_Sales,0.601876963861531
+JP_Sales,0.0
+Other_Sales,0.011108807175724933
