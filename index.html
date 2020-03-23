@@ -13,8 +13,8 @@
 
     <ul class="header row">
       <li class="col">Bubble Chart Clustering</li>
-      <li class="col active">Parameter Weights Diagram</li>
-      <li class="col">Correlation Between Attributes</li>
+      <li class="col">Parameter Weights Diagram</li>
+      <li class="col active">Correlation Between Attributes</li>
     </ul>
 
     <div class="content">
@@ -22,7 +22,7 @@
         <label>yed</label>
       </section>
 
-      <section class="tab visible" aria-label="Parameter Weights Diagram">
+      <section class="tab" aria-label="Parameter Weights Diagram">
         <div class="subtabs">
           <ul class="subheader row">
             <li class="col active">Non Sales parameters</li>
@@ -38,15 +38,19 @@
         </div>
       </section>
       
-      <section class="tab" aria-label="Correlation Attributes"></section>
+      <section class="tab visible" aria-label="Correlation Attributes">
+        <svg id="heatmap-svg"></svg>
+      </section>
     </div>
   </div>
     
   <script type="text/javascript" src="assets/libs/d3.js"></script>
   <script type="text/javascript" src="assets/libs/d3-tip.js"></script>
-
+  <script src="https://d3js.org/colorbrewer.v1.min.js"></script>
   <script type="text/javascript" src="assets/scripts/main.js"></script>
   <script type="text/javascript" src="assets/scripts/main-bar-chart.js"></script>
+  <script type="text/javascript" src="assets/scripts/main-heatmap.js"></script>
   <script type="text/javascript" src="assets/scripts/1-preproc.js"></script>
   <script type="text/javascript" src="assets/scripts/2-bar-chart.js"></script>
+  <script type="text/javascript" src="assets/scripts/3-heatmap.js"></script>
 </body>

@@ -36,7 +36,6 @@ select {
   font-size: 1.1em;
 }
 
-
 /***** Tabs *****/
 .tabs {
   width: 1000px;
@@ -126,6 +125,11 @@ select {
 }
 
 /***** SVG *****/
+#heatmap-svg {
+  width: 750px;
+  height: 750px;
+}
+
 svg {
   background-color: white;
 }

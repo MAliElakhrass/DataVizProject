@@ -16,15 +16,15 @@ function preprocessing(data, x, y, color) {
     /***** Configuration *****/
     var barChartMargin = {
         top: 55,
-        right: 50,
+        right: 75,
         bottom: 150,
-        left: 50
+        left: 75
     };
     var barChartWidth = 980 - barChartMargin.left - barChartMargin.right;
     var barChartHeight = 550 - barChartMargin.top - barChartMargin.bottom;
 
     /***** Scales *****/
-    var formatDecimal = d3.format(",.2f");
+    var formatDecimal = d3.format(",.4f");
     var color = d3.scaleOrdinal(d3.schemeCategory10);
     var x = d3.scaleBand().range([0, barChartWidth]).round(0.05);
     var y = d3.scaleSqrt().range([barChartHeight, 0]);

@@ -3,13 +3,6 @@
  *
  */
 
-function preprocessing(data, x, y, color) {
-    parseWeight(data);
-    domainX(x, data);
-    domainY(y, data);
-    domainColor(color, data);
-}
-
 (function (d3) {
 
     /***** Tabs *****/

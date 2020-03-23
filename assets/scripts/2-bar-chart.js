@@ -32,12 +32,11 @@ function createAxes(g, xAxis, yAxis, width, height) {
 
     g.append("text")
      .attr("transform", "rotate(-90)")
-     .attr("y", -50)
+     .attr("y", -75)
      .attr("x", -(height / 2))
      .attr("dy", "1em")
      .style("text-anchor", "middle")
-     .text("Coefficient");  
-
+     .text("Coefficient");
 }
 
 /**
@@ -85,8 +84,7 @@ function createBarChart(g, data, x, y, color, tip, height) {
  * @return {string}       Tooltip's text to be shown.
  */
 function getToolTipText(d, data, formatDecimal) {
-    var total = d3.sum(data, d => d.weights);
-    return formatDecimal(d.weights) + " (" + formatDecimal(d.weights/total) + ")";
+    return formatDecimal(d.weights);
 }
 
 /**

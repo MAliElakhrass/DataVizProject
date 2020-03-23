@@ -17,6 +17,28 @@ function parseWeight(data) {
 }
 
 /**
+ * Initializes data from the CSV files by transforming strings that represent
+ * numbers to the Javascript type "number".
+ *
+ * @param data    Data that comes from a CSV file
+ */
+function parseDataHeatmap(data) {
+    var attributeNames = d3.keys(data[0]);
+
+    var corrMatrix = []
+
+    data.forEach(row => {
+        var rowValues = [row.Platform, row.Year_of_Release, row.Genre, row.Publisher,
+                        row.NA_Sales, row.EU_Sales, row.JP_Sales, row.Other_Sales,
+                        row.Critic_Score, row.Critic_Count, row.User_Count,
+                        row.Developer, row.Rating ];
+        corrMatrix.push(rowValues)
+    });
+
+    return [attributeNames, corrMatrix]
+}
+
+/**
  * 
  * Specifies the color domain for each parameters.
  *
