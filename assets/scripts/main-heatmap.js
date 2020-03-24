@@ -4,7 +4,7 @@
  */
 
 (function (d3) {
-
+    var panel = d3.select("#panel");
     /***** Configuration *****/
     var margin = {
         top: 35,
@@ -57,7 +57,7 @@
             return getHeatMapTipText.call(this, d);
         });
         heatmapSVG.call(tip)
-        createHeatMap(heatmapSVG, x, y, data, colors, tip);
+        createHeatMap(heatmapSVG, x, y, data, colors, tip, showPanel);
 
         var data_colors = createDataColor(colors);
         var extent = d3.extent(data_colors, d => d.value);
@@ -66,6 +66,24 @@
                        .domain(extent);
         createAxisLegend(legendSVG, xScale, data_colors, barHeight);
         createLegend(legendSVG, data_colors, innerWidth, barHeight, extent);
+
+        var g = legendSVG.select("g");
+        /***** Information panel management *****/
+        panel.select("button")
+        .on("click", function () {
+            panel.style("display", "none");
+        });
+
+        /**
+         * Display the panel for a specific attribute.
+         *
+         * @param districtId    The number of the district to use to show the right information.
+         */
+        function showPanel(x, y) {
+            panel.style("display", "block");
+        };
     });
 
 })(d3);
+
+

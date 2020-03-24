@@ -33,7 +33,7 @@ function createAxis(g, x, y, height) {
  * @param data    Data to use.
  * @param myColor Color scale associating a color to a value.
  */
-function createHeatMap(g, x, y, data, myColor, tip) {
+function createHeatMap(g, x, y, data, myColor, tip, showPanel) {
     var map = g.selectAll()
                .data(data, function(d) {return d.x + ':' + d.y;})
                .enter()
@@ -42,10 +42,14 @@ function createHeatMap(g, x, y, data, myColor, tip) {
                .attr("y", function(d) { return y(d.y) })
                .attr("width", x.bandwidth())
                .attr("height", y.bandwidth())
-               .style("fill", function(d) { return myColor(d.V)} );
+               .style("fill", function(d) { return myColor(d.V)} )
+               .on("click", function (d) {
+                   console.log('click');
+                   showPanel(d.x, d.y);
+               });
 
     map.on('mouseover', tip.show)
-       .on('mouseout', tip.hide); 
+       .on('mouseout', tip.hide);
 }
 
 /**
@@ -111,6 +115,12 @@ function createLegend(g, data_colors, innerWidth, barHeight, extent) {
      .style("fill", "url(#myGradient)");
 }
 
+/**
+ * Returns the appropriate text for the tooltip.
+ *
+ * @param d               Data associated to the currently hovered bar.
+ * @return {string}       Tooltip's text to be shown.
+ */
 function getHeatMapTipText(d) {
     var formatDecimal = d3.format(",.4f");
     return formatDecimal(d.V);
