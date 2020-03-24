@@ -33,18 +33,26 @@ function createAxis(g, x, y, height) {
  * @param data    Data to use.
  * @param myColor Color scale associating a color to a value.
  */
-function createHeatMap(g, x, y, data, myColor) {
-    g.selectAll()
-     .data(data, function(d) {return d.x + ':' + d.y;})
-     .enter()
-     .append("rect")
-     .attr("x", function(d) { return x(d.x) })
-     .attr("y", function(d) { return y(d.y) })
-     .attr("width", x.bandwidth())
-     .attr("height", y.bandwidth())
-     .style("fill", function(d) { return myColor(d.V)} )
+function createHeatMap(g, x, y, data, myColor, tip) {
+    var map = g.selectAll()
+               .data(data, function(d) {return d.x + ':' + d.y;})
+               .enter()
+               .append("rect")
+               .attr("x", function(d) { return x(d.x) })
+               .attr("y", function(d) { return y(d.y) })
+               .attr("width", x.bandwidth())
+               .attr("height", y.bandwidth())
+               .style("fill", function(d) { return myColor(d.V)} );
+
+    map.on('mouseover', tip.show)
+       .on('mouseout', tip.hide); 
 }
 
+/**
+ * Get the data color
+ *
+ * @param colors  Color scale associating a color to a value.
+ */
 function createDataColor(colors) {
     var data_colors = []
     var min = -1;
@@ -58,6 +66,14 @@ function createDataColor(colors) {
     return data_colors
 }
 
+/**
+ * Creates the axis for the legend.
+ *
+ * @param g             The SVG group in which the legend has to be drawn.
+ * @param x             Scale to use for the X axis.
+ * @param data_colors   Data color
+ * @param height        Height of the graphic.
+ */
 function createAxisLegend(g, x, data_colors, height) {
     var xTicks = data_colors.map(d => d.value);
     var xAxis = d3.axisBottom(x)
@@ -70,6 +86,14 @@ function createAxisLegend(g, x, data_colors, height) {
      .remove();
 }
 
+/**
+ * Creates the axis for the legend.
+ *
+ * @param g             The SVG group in which the legend has to be drawn.
+ * @param x             Scale to use for the X axis.
+ * @param data_colors   Data color
+ * @param height        Height of the graphic.
+ */
 function createLegend(g, data_colors, innerWidth, barHeight, extent) {
     var defs = g.append("defs");
     var linearGradient = defs.append("linearGradient")
@@ -85,4 +109,9 @@ function createLegend(g, data_colors, innerWidth, barHeight, extent) {
      .attr("width", innerWidth)
      .attr("height", barHeight)
      .style("fill", "url(#myGradient)");
+}
+
+function getHeatMapTipText(d) {
+    var formatDecimal = d3.format(",.4f");
+    return formatDecimal(d.V);
 }

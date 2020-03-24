@@ -50,7 +50,14 @@
         var value_col = data.map(function(value,index) { return value.V; });
         var colors = createColorScaleHeatMap(value_col);
 
-        createHeatMap(heatmapSVG, x, y, data, colors);
+        var tip = d3.tip()
+                    .attr('class', 'd3-tip')
+                    .offset([-10, 0]);
+        tip.html(function(d) {
+            return getHeatMapTipText.call(this, d);
+        });
+        heatmapSVG.call(tip)
+        createHeatMap(heatmapSVG, x, y, data, colors, tip);
 
         var data_colors = createDataColor(colors);
         var extent = d3.extent(data_colors, d => d.value);
