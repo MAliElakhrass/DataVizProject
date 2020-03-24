@@ -39,6 +39,35 @@ function parseDataHeatmap(data) {
 }
 
 /**
+ * Initializes data from the CSV files by transforming strings that represent
+ * numbers to the Javascript type "number".
+ *
+ * @param data    Data that comes from a CSV file
+ */
+function parseDataScatterPlot(data, attributeName) {
+    switch(attributeName) {
+        case 'Critic_Count':
+            return data.map(row => row.Critic_Count);
+        case 'Critic_Score':
+            return data.map(row => row.Critic_Score);
+        case 'EU_Sales':
+            return data.map(row => row.EU_Sales);
+        case 'JP_Sales':
+            return data.map(row => row.JP_Sales);
+        case 'NA_Sales':
+            return data.map(row => row.NA_Sales);
+        case 'Other_Sales':
+            return data.map(row => row.Other_Sales);
+        case 'User_Count':
+            return data.map(row => row.User_Count);
+        case 'Year_of_Release':
+            return data.map(row => row.Year_of_Release);
+        default:
+          break;
+    }
+}
+
+/**
  * 
  * Specifies the color domain for each parameters.
  *
@@ -81,6 +110,26 @@ function domainX(x, data) {
 function domainY(y, data) {
     var coefs = data.map(d => d.weights);
     y.domain([d3.min(coefs), d3.max(coefs)]);
+}
+
+/**
+ * Set the domain scale for the X axis of the scatter plot.
+ *
+ * @param x     X scale to use.
+ */
+function domainXScatterPlot(x, data) {
+    x.domain([0, d3.max(data)]);
+}
+  
+/**
+ * Set the domain scale for the Y axis of the scatter plot.
+ *
+ * @param y     Y scale to use.
+ */
+function domainYScatterPlot(y, data, attribute) {
+    y.domain([0, d3.max(data, function (d) {
+        return d.attribute;
+    })]);
 }
 
 /**

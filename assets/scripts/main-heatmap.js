@@ -5,6 +5,7 @@
 
 (function (d3) {
     var panel = d3.select("#panel");
+
     /***** Configuration *****/
     var margin = {
         top: 35,
@@ -15,13 +16,25 @@
     var width = 750 - margin.left - margin.right;
     var height = 700 - margin.top - margin.bottom;
 
-    var attributes = ['Critic_Count', 'Critic_Score', 'Developer', 'EU_Sales', 'Genre',
-                      'JP_Sales', 'NA_Sales', 'Other_Sales', 'Platform', 'Publisher',
-                      'Rating', 'User_Count', 'Year_of_Release'];
+    var attributes = ['Critic_Count', 'Critic_Score', 'EU_Sales','JP_Sales', 
+                      'NA_Sales', 'Other_Sales', 'User_Count', 'Year_of_Release'];
     var legendHeight = 28;
     var barHeight = 8;
     var legendPadding = 9;
     var innerWidth = width - (legendPadding * 2);
+
+    var spMargin = {
+        top: 0,
+        right: 40,
+        bottom: 0,
+        left: 40
+    };
+    var spWidth = 300 - spMargin.left - spMargin.right;
+    var spHeight = 150 - spMargin.top - spMargin.bottom;
+
+    /***** CreationScatter Plot Scale *****/
+    var spx = d3.scaleLinear().range([0, spWidth]);
+    var spy = d3.scaleLinear().range([spHeight, 0]);
 
     /***** Creation Heatmap elements *****/
     var heatmapSVG = d3.select('#heatmap-svg')
@@ -45,8 +58,17 @@
                       .append("g")
                       .attr("transform", "translate(" + legendPadding + ", 0)");
 
-    /***** Load data for heatmap *****/
-    d3.csv("./data/corr_matrix.csv").then(function (data) {
+    var spSVG = d3.select("#scatter")
+                  .append("svg")
+                  .attr("width", spWidth + spMargin.left + spMargin.right)
+                  .attr("height", spHeight + spMargin.top + spMargin.bottom)
+                  .append("g")
+                  .attr("transform", "translate(" + spMargin.left + "," + spMargin.top + ")");
+    
+    /***** Load data *****/
+    promises = [d3.csv("./data/corr_matrix.csv"), d3.csv("./data/videogames.csv")];
+    Promise.all(promises).then(function(results) {
+        data = results[0];
         var value_col = data.map(function(value,index) { return value.V; });
         var colors = createColorScaleHeatMap(value_col);
 
@@ -80,6 +102,18 @@
          * @param districtId    The number of the district to use to show the right information.
          */
         function showPanel(x, y) {
+            var attr1 = parseDataScatterPlot(results[1], x);
+            var attr2 = parseDataScatterPlot(results[1], y);
+
+            console.log(attr1)
+            console.log(attr2)
+
+            
+            var attr1 = results[1].map(row => row.x);
+             results[1].map(row => row.y);
+            console.log(attr1)
+            domainXScatterPlot(spx, attr1)
+
             panel.style("display", "block");
         };
     });

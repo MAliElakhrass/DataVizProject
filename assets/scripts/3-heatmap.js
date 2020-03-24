@@ -44,7 +44,6 @@ function createHeatMap(g, x, y, data, myColor, tip, showPanel) {
                .attr("height", y.bandwidth())
                .style("fill", function(d) { return myColor(d.V)} )
                .on("click", function (d) {
-                   console.log('click');
                    showPanel(d.x, d.y);
                });
 
