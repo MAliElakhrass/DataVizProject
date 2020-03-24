@@ -59,7 +59,7 @@ function parseDataScatterPlot(data, attributeName) {
         case 'Other_Sales':
             return data.map(row => row.Other_Sales);
         case 'User_Score':
-            return data.map(row => row.User_Count);
+            return data.map(row => row.User_Score);
         case 'User_Count':
             return data.map(row => row.User_Count);
         case 'Year_of_Release':

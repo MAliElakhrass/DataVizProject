@@ -5,16 +5,14 @@
  */
 
 function createAxisScatterPlot(g, x, y, height) {
-   g.append("g")
+    g.append("g")
      .attr("class", "sp axis x")
      .attr("transform", "translate(0," + height + ")")
-     .call(d3.axisBottom(x).tickFormat(function (d) {
-         return d3.format(".2f")(d)
-     }));
+     .call(d3.axisBottom(x));
 
-   g.append("g")
-    .attr("class", "sp axis y")
-    .call(d3.axisLeft(y));
+    g.append("g")
+     .attr("class", "sp axis y")
+     .call(d3.axisLeft(y));
 }
 
 /**
@@ -41,5 +39,18 @@ function updateAxis(g, x, y) {
      .call(yAxis);
 }
 
-function updatePanelScatterPlot(g, x, y, height) {
+function updatePanelScatterPlot(g, data, x, y) {
+    g.selectAll("circle").remove();
+
+    g.append("g")
+     .selectAll("dot")
+     .data(data)
+     .enter()
+     .append("circle")
+     .attr("cx", function (d) {
+        return x(d.x); } )
+    .attr("cy", function (d) { 
+        return y(d.y); } )
+    .attr("r", 1.5)
+    .style("fill", "#69b3a2");
 }

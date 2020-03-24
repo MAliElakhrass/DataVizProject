@@ -24,17 +24,13 @@
     var innerWidth = width - (legendPadding * 2);
 
     var spMargin = {
-        top: 0,
-        right: 20,
-        bottom: 20,
-        left: 20
+        top: 10,
+        right: 30,
+        bottom: 30,
+        left: 60
     };
-    var spWidth = 300 - spMargin.left - spMargin.right;
-    var spHeight = 150 - spMargin.top - spMargin.bottom;
-
-    /***** CreationScatter Plot Scale *****/
-    var spx = d3.scaleLinear().range([0, spWidth]);
-    var spy = d3.scaleLinear().range([spHeight, 0]);
+    var spWidth = 460 - margin.left - margin.right;
+    var spHeight = 400 - margin.top - margin.bottom;
 
     /***** Creation Heatmap elements *****/
     var heatmapSVG = d3.select('#heatmap-svg')
@@ -57,6 +53,10 @@
                       .attr("height", legendHeight)
                       .append("g")
                       .attr("transform", "translate(" + legendPadding + ", 0)");
+    
+    /***** CreationScatter Plot Scale *****/
+    var spx = d3.scaleLinear().range([0, spWidth]);
+    var spy = d3.scaleLinear().range([spHeight, 0]);
 
     /***** Creation of Scatter Plot elements*****/
     var spSVG = d3.select("#scatter")
@@ -91,29 +91,35 @@
         createAxisLegend(legendSVG, xScale, data_colors, barHeight);
         createLegend(legendSVG, data_colors, innerWidth, barHeight, extent);
 
-        var g = legendSVG.select("g");
-
         /***** Information panel management *****/
         panel.select("button")
         .on("click", function () {
             panel.style("display", "none");
         });
 
-        /**
+        /** 
          * Display the panel for a specific attribute.
          *
          * @param districtId    The number of the district to use to show the right information.
          */
         function showPanel(x, y) {
             panel.style("display", "block");
-
+            
             var attr1 = parseDataScatterPlot(results[1], x);
             var attr2 = parseDataScatterPlot(results[1], y);
-            console.log(attr2)
+
+            attr_data = [];
+            for (i = 0; i < attr1.length; i++) {
+                attr_data.push({
+                    'x': attr1[i],
+                    'y': attr2[i]
+                })
+            }
 
             updateDomains(spx, spy, attr1, attr2);
             updateAxis(spSVG, spx, spy, spHeight);
-        };
+            updatePanelScatterPlot(spSVG, attr_data, spx, spy);
+        }
     });
 
 })(d3);
