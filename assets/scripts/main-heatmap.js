@@ -16,7 +16,7 @@
     var width = 750 - margin.left - margin.right;
     var height = 700 - margin.top - margin.bottom;
 
-    var attributes = ['Critic_Count', 'Critic_Score', 'EU_Sales','JP_Sales', 
+    var attributes = ['Critic_Count', 'Critic_Score', 'EU_Sales','JP_Sales', 'User_Score',
                       'NA_Sales', 'Other_Sales', 'User_Count', 'Year_of_Release'];
     var legendHeight = 28;
     var barHeight = 8;
@@ -25,9 +25,9 @@
 
     var spMargin = {
         top: 0,
-        right: 40,
-        bottom: 0,
-        left: 40
+        right: 20,
+        bottom: 20,
+        left: 20
     };
     var spWidth = 300 - spMargin.left - spMargin.right;
     var spHeight = 150 - spMargin.top - spMargin.bottom;
@@ -58,12 +58,14 @@
                       .append("g")
                       .attr("transform", "translate(" + legendPadding + ", 0)");
 
+    /***** Creation of Scatter Plot elements*****/
     var spSVG = d3.select("#scatter")
                   .append("svg")
                   .attr("width", spWidth + spMargin.left + spMargin.right)
                   .attr("height", spHeight + spMargin.top + spMargin.bottom)
                   .append("g")
                   .attr("transform", "translate(" + spMargin.left + "," + spMargin.top + ")");
+    createAxisScatterPlot(spSVG, spx, spy, spHeight);
     
     /***** Load data *****/
     promises = [d3.csv("./data/corr_matrix.csv"), d3.csv("./data/videogames.csv")];
@@ -90,6 +92,7 @@
         createLegend(legendSVG, data_colors, innerWidth, barHeight, extent);
 
         var g = legendSVG.select("g");
+
         /***** Information panel management *****/
         panel.select("button")
         .on("click", function () {
@@ -102,19 +105,14 @@
          * @param districtId    The number of the district to use to show the right information.
          */
         function showPanel(x, y) {
+            panel.style("display", "block");
+
             var attr1 = parseDataScatterPlot(results[1], x);
             var attr2 = parseDataScatterPlot(results[1], y);
-
-            console.log(attr1)
             console.log(attr2)
 
-            
-            var attr1 = results[1].map(row => row.x);
-             results[1].map(row => row.y);
-            console.log(attr1)
-            domainXScatterPlot(spx, attr1)
-
-            panel.style("display", "block");
+            updateDomains(spx, spy, attr1, attr2);
+            updateAxis(spSVG, spx, spy, spHeight);
         };
     });
 
