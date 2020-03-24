@@ -125,11 +125,6 @@ select {
 }
 
 /***** SVG *****/
-#heatmap-svg {
-  width: 750px;
-  height: 750px;
-}
-
 svg {
   background-color: white;
 }

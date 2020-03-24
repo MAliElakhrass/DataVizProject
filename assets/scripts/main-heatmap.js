@@ -16,7 +16,7 @@ function createAxis(g, x, y, height) {
 }
 
 function createColorScale() {
-    return d3.scaleQuantile().domain([0, 12, 1]).range(colorbrewer.RdYlGn[10]);
+    return d3.scaleSequential(d3.interpolateReds).domain([-0.33, 1]); //.range(d3.interpolatePurples[10])
 }
 
 function createHeatMap(g, x, y, data, myColor) {
@@ -31,19 +31,19 @@ function createHeatMap(g, x, y, data, myColor) {
      .style("fill", function(d) { return myColor(d.V)} )
 }
 
-
 (function (d3) {
 
     /***** Configuration *****/
     var margin = {
-        top: 50,
+        top: 35,
         right: 85,
         bottom: 85,
         left: 85
     };
-    var width = 750 - margin.left - margin.right - 150;
-    var height = 600 - margin.top - margin.bottom;
-    // var legendWitdh = 125
+    var width = 750 - margin.left - margin.right;
+    var height = 700 - margin.top - margin.bottom;
+    var legendElementWidth = (Math.floor(width / 13)) * 1.5;
+    
     var attributes = ['Critic_Count', 'Critic_Score', 'Developer', 'EU_Sales', 'Genre',
                       'JP_Sales', 'NA_Sales', 'Other_Sales', 'Platform', 'Publisher',
                       'Rating', 'User_Count', 'Year_of_Release'];
@@ -62,29 +62,32 @@ function createHeatMap(g, x, y, data, myColor) {
               .padding(0.01);
     createAxis(heatmapSVG, x, y, height);
     var colors = createColorScale();
-    /**
+    console.log(colors(0))
+/*
     var legend = heatmapSVG.selectAll(".legend")
                            .data([0].concat(colors.quantiles()), function(d) { return d; })
                            .enter()
                            .append("g")
                            .attr("class", "legend");
-
+    
     legend.append("rect")
-          .attr("x", function(d, i) { return 750 * 11; })
-          .attr("y", function(d, i) { return (i * 125 + 7); })
-          .attr("width", 125)
-          .attr("height", 500)
-          .style("fill", function(d, i) { return colors[i]; })
-          .attr("class", "square");
+          .attr("x", function(d, i) { return legendElementWidth * i - 50; })
+          .attr("y", function(d, i) { return (height + 50); })
+          .attr("width", legendElementWidth)
+          .attr("height", Math.floor(width / 13))
+          .style("fill", function(d, i) { return d3.scaleQuantile(d3.interpolateReds)[i]; });
                
     legend.append("text")
           .attr("class", "mono")
-          .text(function(d) { return "plus " + Math.round(d); })
-          .attr("x", function(d, i) { return 750 * 11 + 25; })
-          .attr("y", function(d, i) { return (i * 125 + 20); })
+          .text(function(d) { return "> " + d.toString(); })
+          .attr("x", function(d, i){ return legendElementWidth * i - 40;})
+          .attr("y", function(d, i) { return (height + 30 + Math.floor(width / 13)); })
     */
     /***** Load data for heatmap *****/
     d3.csv("./data/corr_matrix.csv").then(function (data) {
+        console.log(data)
+        var V = data.map(function(value,index) { return value.V; });
+        
         createHeatMap(heatmapSVG, x, y, data, colors)
     });
 
