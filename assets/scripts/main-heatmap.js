@@ -3,34 +3,6 @@
  *
  */
 
-function createAxis(g, x, y, height) {
-    g.append("g")
-     .attr("transform", "translate(0," + height + ")")
-     .call(d3.axisBottom(x))
-     .selectAll("text")
-     .attr("transform", "rotate(30) ")
-     .style("text-anchor", "start");;
-
-    g.append("g")
-     .call(d3.axisLeft(y));
-}
-
-function createColorScale() {
-    return d3.scaleSequential(d3.interpolateReds).domain([-0.33, 1]); //.range(d3.interpolatePurples[10])
-}
-
-function createHeatMap(g, x, y, data, myColor) {
-    g.selectAll()
-     .data(data, function(d) {return d.x + ':' + d.y;})
-     .enter()
-     .append("rect")
-     .attr("x", function(d) { return x(d.x) })
-     .attr("y", function(d) { return y(d.y) })
-     .attr("width", x.bandwidth())
-     .attr("height", y.bandwidth())
-     .style("fill", function(d) { return myColor(d.V)} )
-}
-
 (function (d3) {
 
     /***** Configuration *****/
@@ -42,11 +14,14 @@ function createHeatMap(g, x, y, data, myColor) {
     };
     var width = 750 - margin.left - margin.right;
     var height = 700 - margin.top - margin.bottom;
-    var legendElementWidth = (Math.floor(width / 13)) * 1.5;
-    
+
     var attributes = ['Critic_Count', 'Critic_Score', 'Developer', 'EU_Sales', 'Genre',
                       'JP_Sales', 'NA_Sales', 'Other_Sales', 'Platform', 'Publisher',
                       'Rating', 'User_Count', 'Year_of_Release'];
+    var legendHeight = 28;
+    var barHeight = 8;
+    var legendPadding = 9;
+    var innerWidth = width - (legendPadding * 2);
 
     /***** Creation Heatmap elements *****/
     var heatmapSVG = d3.select('#heatmap-svg')
@@ -61,34 +36,29 @@ function createHeatMap(g, x, y, data, myColor) {
               .domain(attributes)
               .padding(0.01);
     createAxis(heatmapSVG, x, y, height);
-    var colors = createColorScale();
-    console.log(colors(0))
-/*
-    var legend = heatmapSVG.selectAll(".legend")
-                           .data([0].concat(colors.quantiles()), function(d) { return d; })
-                           .enter()
-                           .append("g")
-                           .attr("class", "legend");
-    
-    legend.append("rect")
-          .attr("x", function(d, i) { return legendElementWidth * i - 50; })
-          .attr("y", function(d, i) { return (height + 50); })
-          .attr("width", legendElementWidth)
-          .attr("height", Math.floor(width / 13))
-          .style("fill", function(d, i) { return d3.scaleQuantile(d3.interpolateReds)[i]; });
-               
-    legend.append("text")
-          .attr("class", "mono")
-          .text(function(d) { return "> " + d.toString(); })
-          .attr("x", function(d, i){ return legendElementWidth * i - 40;})
-          .attr("y", function(d, i) { return (height + 30 + Math.floor(width / 13)); })
-    */
+
+    /***** Creation of legend elements *****/
+    var legendSVG = d3.select("#legend-svg")
+                      .append("svg")
+                      .attr("width", width)
+                      .attr("height", legendHeight)
+                      .append("g")
+                      .attr("transform", "translate(" + legendPadding + ", 0)");
+
     /***** Load data for heatmap *****/
     d3.csv("./data/corr_matrix.csv").then(function (data) {
-        console.log(data)
-        var V = data.map(function(value,index) { return value.V; });
-        
-        createHeatMap(heatmapSVG, x, y, data, colors)
+        var value_col = data.map(function(value,index) { return value.V; });
+        var colors = createColorScaleHeatMap(value_col);
+
+        createHeatMap(heatmapSVG, x, y, data, colors);
+
+        var data_colors = createDataColor(colors);
+        var extent = d3.extent(data_colors, d => d.value);
+        var xScale = d3.scaleLinear()
+                       .range([0, innerWidth])
+                       .domain(extent);
+        createAxisLegend(legendSVG, xScale, data_colors, barHeight);
+        createLegend(legendSVG, data_colors, innerWidth, barHeight, extent);
     });
 
 })(d3);

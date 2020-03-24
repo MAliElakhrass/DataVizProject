@@ -52,6 +52,17 @@ function domainColor(color, data) {
 }
 
 /**
+ * 
+ * Specifies the color domain for the correlation value
+ *
+ * @param color   Color scale.
+ * @param data    Data from JSON file.
+ */
+function createColorScaleHeatMap(data) {
+    return d3.scaleSequential(d3.interpolateRdBu).domain([-1, d3.max(data)]);
+}
+
+/**
  * Set the domain scale for the X axis of the bar chart.
  *
  * @param x     X scale to use.
