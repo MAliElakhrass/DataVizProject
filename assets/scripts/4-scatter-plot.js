@@ -23,8 +23,8 @@ function createAxisScatterPlot(g, x, y, height) {
  * @param y                 The Y scale
  */
 function updateDomains(x, y, attribute1, attribute2) {
-    x.domain([0, d3.max(attribute1)]);
-    y.domain([0, d3.max(attribute2)]);  
+    x.domain([d3.min(attribute1), d3.max(attribute1)]);
+    y.domain([d3.min(attribute2), d3.max(attribute2)]);  
 }
 
 function updateAxis(g, x, y) {

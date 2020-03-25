@@ -47,23 +47,23 @@ function parseDataHeatmap(data) {
 function parseDataScatterPlot(data, attributeName) {
     switch(attributeName) {
         case 'Critic_Count':
-            return data.map(row => row.Critic_Count);
+            return data.map(row => parseFloat(row.Critic_Count));
         case 'Critic_Score':
-            return data.map(row => row.Critic_Score);
+            return data.map(row => parseFloat(row.Critic_Score));
         case 'EU_Sales':
-            return data.map(row => row.EU_Sales);
+            return data.map(row => parseFloat(row.EU_Sales));
         case 'JP_Sales':
-            return data.map(row => row.JP_Sales);
+            return data.map(row => parseFloat(row.JP_Sales));
         case 'NA_Sales':
-            return data.map(row => row.NA_Sales);
+            return data.map(row => parseFloat(row.NA_Sales));
         case 'Other_Sales':
-            return data.map(row => row.Other_Sales);
+            return data.map(row => parseFloat(row.Other_Sales));
         case 'User_Score':
-            return data.map(row => row.User_Score);
+            return data.map(row => parseFloat(row.User_Score));
         case 'User_Count':
-            return data.map(row => row.User_Count);
+            return data.map(row => parseFloat(row.User_Count));
         case 'Year_of_Release':
-            return data.map(row => row.Year_of_Release);
+            return data.map(row => parseFloat(row.Year_of_Release));
         default:
             console.log(attributeName);
           break;
