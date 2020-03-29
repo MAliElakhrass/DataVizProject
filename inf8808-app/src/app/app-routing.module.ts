@@ -1,8 +1,10 @@
+import { HeatmapComponent } from './modules/heatmap/heatmap.component';
+import { ParamweightComponent } from './modules/paramweight/paramweight.component';
+import { MainpageComponent } from './modules/mainpage/mainpage.component';
+import { BubblechartComponent } from './modules/bubblechart/bubblechart.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DefaultComponent } from './layouts/default/default.component';
-import { DashboardComponent } from './modules/dashboard/dashboard.component';
-import { PostsComponent } from './modules/posts/posts.component';
 
 
 const routes: Routes = [{
@@ -10,11 +12,19 @@ const routes: Routes = [{
   component: DefaultComponent,
   children:[{
     path: '',
-    component: DashboardComponent
-  }, 
+    component: MainpageComponent
+  },
   {
-    path: 'posts',
-    component: PostsComponent   
+    path: 'bubblechart',
+    component: BubblechartComponent   
+  },
+  {
+    path: 'paramweight',
+    component: ParamweightComponent
+  },
+  {
+    path: 'heatmap',
+    component: HeatmapComponent
   }]
 }];
 
