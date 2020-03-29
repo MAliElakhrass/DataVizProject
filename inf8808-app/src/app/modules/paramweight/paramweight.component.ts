@@ -1,6 +1,8 @@
-import { logging } from 'protractor';
-import { Component, OnInit } from '@angular/core';
+import { ParamWeightDataService } from './../../services/param-weight-data.service';
+import { Component, OnInit, ContentChildren, QueryList } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import * as d3 from 'd3';
+
 
 @Component({
   selector: 'app-paramweight',
@@ -9,13 +11,26 @@ import * as d3 from 'd3';
 })
 export class ParamweightComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataService: ParamWeightDataService) { }
 
   ngOnInit(): void {
     this.configureSelection();
     this.configurationBarChart();
   }
 
+  /**
+   * Function that handle event when tab is clicked
+   *
+   */
+  public tabSelected(tab: MatTabChangeEvent) {
+    console.log(tab.index)
+  }
+
+  /**
+   * Configure the selections by adding the text and
+   * handle event when they are clicked
+   *
+   */
   private configureSelection(): void {
     var selections = ['Attribute name', 'Ascending', 'Descending'];
 
@@ -36,7 +51,7 @@ export class ParamweightComponent implements OnInit {
       });
   }
 
-  
+
   /**
    * Configure all the bar chart parameters
    *
