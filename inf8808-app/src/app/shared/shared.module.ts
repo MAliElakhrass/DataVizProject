@@ -11,12 +11,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
+import { BarchartComponent } from './components/barchart/barchart.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    BarchartComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { RouterModule } from '@angular/router';
   exports: [
     HeaderComponent,
     FooterComponent,
-    SidebarComponent
+    SidebarComponent,
+    BarchartComponent
   ]
 })
 export class SharedModule { }

@@ -1,0 +1,24 @@
+.row {
+    display: flex;
+}
+  
+.row > .col {
+    flex: 1;
+}
+  
+.label {
+    font-family: Arial, sans-serif;
+    text-align: left;
+    line-height: 24px;
+    flex-basis: 150px;
+}
+  
+select {
+    width: 100%;
+}
+  
+.label, select {
+    margin-top: 25px;
+    padding: 5px;
+    font-size: 1.4em;
+}
