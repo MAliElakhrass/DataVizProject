@@ -104,8 +104,13 @@ function transition(g, newData, x, y, color, xAxis, height, tip) {
      .selectAll("text")
      .attr("transform", "rotate(30) ")
      .style("text-anchor", "start");
-
-    var bars = g.selectAll("rect")
+    
+    g.append("text")             
+     .attr("transform", "translate(" + (width/2) + " ," +  (height + 75) + ")")
+     .style("text-anchor", "middle")
+     .text("Yed");
+    
+     var bars = g.selectAll("rect")
                 .remove()
                 .exit()
                 .data(newData)
