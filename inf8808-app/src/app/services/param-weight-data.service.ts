@@ -21,8 +21,6 @@ export class ParamWeightDataService {
   }
 
   private readData(path: string): Promise<ParamWeight[]> {
-    const PATH = 'assets/data/weights_nonsale.csv';
-
     return this.http.get(path, { responseType: 'text' }).toPromise().then(results => {
       return d3.csvParse(results, function(d) {
         return {

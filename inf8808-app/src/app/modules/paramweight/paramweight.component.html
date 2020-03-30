@@ -1,4 +1,4 @@
-<mat-tab-group (selectedTabChange)="tabSelected($event)">
+<mat-tab-group (selectedTabChange)="selectTab($event)">
   <mat-tab label="Non Sales parameters"></mat-tab>
   <mat-tab label="Sales parameters"></mat-tab>
 </mat-tab-group>
@@ -8,5 +8,5 @@
   <select class="col" name="sort" title="Sort By"></select>
 </div>
 
-<app-barchart></app-barchart>
+<app-barchart class="barchart" *ngIf="bcConfig" [config]="bcConfig"></app-barchart>
 
