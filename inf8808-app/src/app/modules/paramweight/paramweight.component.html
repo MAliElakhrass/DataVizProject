@@ -5,7 +5,7 @@
 
 <div class="row">
   <div class="label">Sort By:</div>
-  <select class="col" name="sort" title="Sort By"></select>
+  <select id='tabSelection' class="col" name="sort" title="Sort By"></select>
 </div>
 
 <app-barchart class="barchart" *ngIf="bcConfig" [config]="bcConfig"></app-barchart>

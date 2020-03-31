@@ -20,7 +20,7 @@ export class ParamweightComponent implements OnInit {
 
   ngOnInit(): void {
     this.configureSelection();
-    this.configurationBarChart();
+    this.configurationBarChart(this.dataService.nonSaleData);
   }
 
   /**
@@ -28,7 +28,11 @@ export class ParamweightComponent implements OnInit {
    *
    */
   public selectTab(tab: MatTabChangeEvent) {
-    console.log(tab.index)
+    if (tab.index === 0) {
+      this.configurationBarChart(this.dataService.nonSaleData);
+    } else {
+      this.configurationBarChart(this.dataService.saleData);
+    }
   }
 
   /**
@@ -40,9 +44,16 @@ export class ParamweightComponent implements OnInit {
     var selections = ['Attribute name', 'Ascending', 'Descending'];
 
     d3.select("select")
-      .on("change", function() {
-        let selectOptions = d3.select(this).property("value");
-        console.log(selectOptions);
+      .on("change", e => {
+        let selectOptions = d3.select('#tabSelection').property("value");
+
+        if (selectOptions === 0) {
+          this.dataService.sortData('alpha');
+        } else if (selectOptions === 1) {
+          this.dataService.sortData('ascending');
+        } else if (selectOptions === 2) {
+          this.dataService.sortData('descending');
+        }
       })
       .selectAll("option")
       .data(selections)
@@ -62,8 +73,8 @@ export class ParamweightComponent implements OnInit {
    *
    * @param data    Data that comes from a CSV file
    */
-  private configurationBarChart() {
-    this.dataService.nonSaleData.then(data => {
+  private configurationBarChart(dataset) {
+    dataset.then(data => {
       this.bcConfig = {
         width: 1000,
         height: 750,

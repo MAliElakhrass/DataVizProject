@@ -32,7 +32,7 @@ export class ParamWeightDataService {
     });
   }
 
-  private sortData(command: string) {
+  public sortData(command: string) {
     switch(command) {
       case "alpha":
         this.nonSaleData.then(d => {
