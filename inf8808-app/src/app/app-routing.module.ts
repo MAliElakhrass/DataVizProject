@@ -1,10 +1,10 @@
-import { HeatmapComponent } from './modules/heatmap/heatmap.component';
 import { ParamweightComponent } from './modules/paramweight/paramweight.component';
 import { MainpageComponent } from './modules/mainpage/mainpage.component';
 import { BubblechartComponent } from './modules/bubblechart/bubblechart.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DefaultComponent } from './layouts/default/default.component';
+import { CorrelationComponent } from './modules/correlation/correlation.component';
 
 
 const routes: Routes = [{
@@ -23,8 +23,8 @@ const routes: Routes = [{
     component: ParamweightComponent
   },
   {
-    path: 'heatmap',
-    component: HeatmapComponent
+    path: 'correlation',
+    component: CorrelationComponent
   }]
 }];
 

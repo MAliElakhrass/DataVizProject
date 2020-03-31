@@ -12,13 +12,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { BarchartComponent } from './components/barchart/barchart.component';
+import { HeatmapComponent } from './components/heatmap/heatmap.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     FooterComponent,
     SidebarComponent,
-    BarchartComponent
+    BarchartComponent,
+    HeatmapComponent
   ],
   imports: [
     CommonModule,
