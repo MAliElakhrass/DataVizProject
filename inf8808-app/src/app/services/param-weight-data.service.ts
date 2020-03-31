@@ -17,7 +17,8 @@ export class ParamWeightDataService {
 
   constructor(private http: HttpClient) {
     this.nonSaleData = this.readData(this.PATH_DATA[0]);
-    this.saleData = this.readData(this.PATH_DATA[1])
+    this.saleData = this.readData(this.PATH_DATA[1]);
+    this.sortData('alpha');
   }
 
   private readData(path: string): Promise<ParamWeight[]> {
@@ -29,5 +30,54 @@ export class ParamWeightDataService {
         }
       });
     });
+  }
+
+  private sortData(command: string) {
+    switch(command) {
+      case "alpha":
+        this.nonSaleData.then(d => {
+          d.sort(function(x, y) {
+            return d3.ascending(x.parameter, y.parameter);
+          });
+        });
+
+        this.saleData.then(d => {
+          d.sort(function(x, y) {
+            return d3.ascending(x.parameter, y.parameter);
+          });
+        });
+
+        break;
+      case "ascending":
+        this.nonSaleData.then(d => {
+          d.sort(function(x, y) {
+            return d3.ascending(x.weight, y.weight);
+          });
+        });
+
+        this.saleData.then(d => {
+          d.sort(function(x, y) {
+            return d3.descending(x.weight, y.weight);
+          });
+        });
+
+        break;
+      case "descending":
+        this.nonSaleData.then(d => {
+          d.sort(function(x, y) {
+            return d3.descending(x.weight, y.weight);
+          });
+        });
+
+        this.saleData.then(d => {
+          d.sort(function(x, y) {
+            return d3.descending(x.weight, y.weight);
+          });
+        });
+
+        break;
+      default:
+        break;
+    }
   }
 }
