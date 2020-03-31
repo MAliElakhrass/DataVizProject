@@ -33,51 +33,42 @@ export class ParamWeightDataService {
   }
 
   public sortData(command: string) {
-    switch(command) {
-      case "alpha":
-        this.nonSaleData.then(d => {
-          d.sort(function(x, y) {
-            return d3.ascending(x.parameter, y.parameter);
-          });
+    if (command == "alpha") {
+      this.nonSaleData.then(d => {
+        d.sort(function(x, y) {
+          return d3.ascending(x.parameter, y.parameter);
         });
+      });
 
-        this.saleData.then(d => {
-          d.sort(function(x, y) {
-            return d3.ascending(x.parameter, y.parameter);
-          });
+      this.saleData.then(d => {
+        d.sort(function(x, y) {
+          return d3.ascending(x.parameter, y.parameter);
         });
-
-        break;
-      case "ascending":
-        this.nonSaleData.then(d => {
-          d.sort(function(x, y) {
-            return d3.ascending(x.weight, y.weight);
-          });
+      });
+    } else if (command == "ascending") {
+      this.nonSaleData.then(d => {
+        d.sort(function(x, y) {
+          return d3.ascending(x.weight, y.weight);
         });
+      });
 
-        this.saleData.then(d => {
-          d.sort(function(x, y) {
-            return d3.descending(x.weight, y.weight);
-          });
+      this.saleData.then(d => {
+        d.sort(function(x, y) {
+          return d3.ascending(x.weight, y.weight);
         });
-
-        break;
-      case "descending":
-        this.nonSaleData.then(d => {
-          d.sort(function(x, y) {
-            return d3.descending(x.weight, y.weight);
-          });
+      });
+    } else if (command == "descending") {
+      this.nonSaleData.then(d => {
+        d.sort(function(x, y) {
+          return d3.descending(x.weight, y.weight);
         });
+      });
 
-        this.saleData.then(d => {
-          d.sort(function(x, y) {
-            return d3.descending(x.weight, y.weight);
-          });
+      this.saleData.then(d => {
+        d.sort(function(x, y) {
+          return d3.descending(x.weight, y.weight);
         });
-
-        break;
-      default:
-        break;
+      });
     }
   }
 }

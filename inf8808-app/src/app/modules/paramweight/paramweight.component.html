@@ -8,5 +8,5 @@
   <select id='tabSelection' class="col" name="sort" title="Sort By"></select>
 </div>
 
-<app-barchart class="barchart" *ngIf="bcConfig" [config]="bcConfig"></app-barchart>
+<app-barchart class="barchart" *ngIf="bcConfig" [config]="bcConfig" [events]="eventsSubject.asObservable()"></app-barchart>
 
