@@ -1,7 +1,7 @@
 import { BarChartConfig } from './../../barchart-configuration';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import * as d3 from 'd3';
-import d3Tip from 'd3-tip';
+import d3Tip from "d3-tip";
 
 @Component({
   selector: 'app-barchart',
@@ -23,7 +23,6 @@ export class BarchartComponent implements OnInit {
   private g;
   private xAxis;
   private yAxis;
-  private tip;
 
   constructor() { }
 
@@ -32,7 +31,6 @@ export class BarchartComponent implements OnInit {
     this.setScales();
     this.createSVGobject();
     this.setDomains();
-    this.setTooltip();
     this.createAxis();
     this.createBarChart();
   }
@@ -50,13 +48,13 @@ export class BarchartComponent implements OnInit {
   }
 
   private createSVGobject(): void {
-    let barChartSvg = d3.select("#bar-chart-svg")
-                        .attr("width", this.width)
-                        .attr("height", this.height);
-    this.g = barChartSvg.append('g')
-                        .attr('transform',
-                              'translate(' + this.config.marginLeft + ','
-                              + this.config.marginTop + ')');
+    this.g = d3.select("#bar-chart-svg")
+               .attr("width", this.config.width)
+               .attr("height", this.config.height)
+               .append('g')
+               .attr('transform',
+                     'translate(' + this.config.marginLeft + ','
+                     + this.config.marginTop + ')');
   }
 
   private setDomains(): void {
@@ -68,13 +66,8 @@ export class BarchartComponent implements OnInit {
     this.y.domain([d3.min(coefs), d3.max(coefs)]);
   }
 
-  private setTooltip(): void {
-    this.tip = d3Tip().attr('class', 'd3-tip')
-                      .offset([-10, 0])
-                      .html(function(d) {
-                        return 'yed'
-                      });
-    this.g.call(this.tip);
+  private static getToolTipText(d) {
+    return d3.format(".4f")(d.weight);
   }
 
   private createAxis(): void {
@@ -107,7 +100,27 @@ export class BarchartComponent implements OnInit {
           .text("Coefficient");
   }
 
+  private showTooltip(event: any, tip: d3Tip) {
+    let height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    tip.show.call(this, event);
+
+    // Workaround pour Firefox
+    let top = parseInt(tip.style('top'), 10);
+    while (top > height) {
+      top = top - (height + 40);
+    }
+    tip.style('top', top + 'px');
+  }
+
   private createBarChart(): void {
+
+    let tip: any = d3Tip()
+                  .attr('class', 'd3-tip')
+                  .offset([-10, 0])
+                  .html(d => this.formatDecimal(d.weight));
+
+    this.g.call(tip);
+
     let bars = this.g.selectAll(".bar")
                      .data(this.config.dataset)
                      .enter()
@@ -130,8 +143,8 @@ export class BarchartComponent implements OnInit {
           return this.height - this.y(d.weight);
         });
 
-    bars.on('mouseover', this.tip.show)
-        .on('mouseout', this.tip.hide);
+    bars.on('mouseover', tip.show)
+        .on('mouseout', tip.hide);
   }
 
 }
