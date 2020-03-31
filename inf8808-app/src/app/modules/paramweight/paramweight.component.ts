@@ -1,6 +1,6 @@
 import { BarChartConfig } from './../../shared/barchart-configuration';
-import { ParamWeightDataService, ParamWeight } from './../../services/param-weight-data.service';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ParamWeightDataService } from './../../services/param-weight-data.service';
+import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import * as d3 from 'd3';
 import { Subject } from 'rxjs';
