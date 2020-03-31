@@ -35,11 +35,11 @@ export class ParamweightComponent implements OnInit {
    */
   public async selectTab(tab: MatTabChangeEvent) {
     if (tab.index == 0) {
-      await this.configurationBarChart(this.dataService.nonSaleData);
       this.tabSelection = 0;
+      await this.configurationBarChart(this.dataService.nonSaleData);
     } else if (tab.index == 1) {
-      await this.configurationBarChart(this.dataService.saleData);
       this.tabSelection = 1;
+      await this.configurationBarChart(this.dataService.saleData);
     }
 
     this.eventsSubject.next(this.bcConfig);
@@ -101,7 +101,7 @@ export class ParamweightComponent implements OnInit {
         marginBottom: 150,
         marginRight: 75,
         marginLeft: 75,
-        title: 'Non Sales Parameters Weight Coefficient',
+        title: this.tabSelection == 0 ? 'Non Sales Parameters Weight Coefficient' : 'Sales Parameters Weight Coefficient',
         dataset: data
       };
     });

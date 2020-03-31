@@ -111,8 +111,16 @@ export class BarchartComponent implements OnInit {
   }
 
   private createBarChart(): void {
-
     this.g.call(this.tip);
+
+    this.g.append("text")
+          .classed("title", true)
+          .attr("x", (this.width / 2))             
+          .attr("y", 0 - (this.config.marginTop / 2))
+          .attr("text-anchor", "middle")  
+          .style("font-size", "16px") 
+          .style("text-decoration", "underline")  
+          .text(this.config.title);
 
     let bars = this.g.selectAll(".bar")
                      .data(this.config.dataset)
@@ -142,6 +150,9 @@ export class BarchartComponent implements OnInit {
 
   private updateBarChart(): void {
     this.setDomains();
+
+    this.g.selectAll("text.title") 
+          .text(this.config.title);
 
     this.g.select('.x.axis')
           .call(this.xAxis)
