@@ -1,4 +1,4 @@
-import { BarChartConfig } from './../../barchart-configuration';
+import { BarChartConfig } from '../../graph-configuration';
 import { Component, OnInit, Input } from '@angular/core';
 import * as d3 from 'd3';
 import d3Tip from "d3-tip";

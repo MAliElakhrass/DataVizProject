@@ -37,7 +37,8 @@ import { HeatmapComponent } from './components/heatmap/heatmap.component';
     HeaderComponent,
     FooterComponent,
     SidebarComponent,
-    BarchartComponent
+    BarchartComponent,
+    HeatmapComponent
   ]
 })
 export class SharedModule { }

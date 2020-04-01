@@ -1,4 +1,4 @@
-import { BarChartConfig } from './../../shared/barchart-configuration';
+import { BarChartConfig } from 'src/app/shared/graph-configuration';
 import { ParamWeightDataService } from './../../services/param-weight-data.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -85,7 +85,6 @@ export class ParamweightComponent implements OnInit {
           return selections[i]
       });
   }
-
 
   /**
    * Configure all the bar chart parameters

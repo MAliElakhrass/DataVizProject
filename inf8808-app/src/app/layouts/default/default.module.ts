@@ -11,6 +11,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CorrelationComponent } from 'src/app/modules/correlation/correlation.component';
+import { CorrelationDataService } from 'src/app/services/correlation-data.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { CorrelationComponent } from 'src/app/modules/correlation/correlation.co
     HttpClientModule
   ],
   providers: [
-    ParamWeightDataService
+    ParamWeightDataService,
+    CorrelationDataService
   ]
 })
 export class DefaultModule { }
