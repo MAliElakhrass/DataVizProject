@@ -17,6 +17,7 @@ export class HeatmapComponent implements OnInit {
   private g;
   private legendSVG;
   private x;
+  private xLegend;
   private y;
   private colors;
   private tip;
@@ -33,8 +34,9 @@ export class HeatmapComponent implements OnInit {
     this.attributes = ['Critic_Count', 'Critic_Score', 'EU_Sales','JP_Sales', 
                        'User_Score', 'NA_Sales', 'Other_Sales', 'User_Count',
                        'Year_of_Release'];
+
     this.legendHeight = 28;
-    this.barHeight = 28;
+    this.barHeight = 8;
     this.legendPadding = 9;
   }
 
@@ -45,13 +47,14 @@ export class HeatmapComponent implements OnInit {
     this.createLegendObject();
     this.createAxis();
     this.createHeatmap();
+    this.addLegend();
   }
 
   private configuration(): void {
     this.width = this.config.width - this.config.marginLeft - this.config.marginRight;
     this.height = this.config.height - this.config.marginTop - this.config.marginBottom;
 
-    this.innerWidth = this.width - this.legendPadding * 2;
+    this.innerWidth = this.width - (this.legendPadding * 2);
   }
 
   private setScales(): void {
@@ -94,10 +97,10 @@ export class HeatmapComponent implements OnInit {
   private createLegendObject(): void {
     this.legendSVG = d3.select("#legend-svg")
                        .append("svg")
-                       .attr("width", this.width)
+                       .attr("width", this.width + this.config.marginLeft)
                        .attr("height", this.legendHeight)
                        .append("g")
-                       .attr("transform", "translate(" + this.legendPadding + ", 0)");
+                       .attr("transform", "translate(" + (this.config.marginLeft + this.legendPadding) + ", 0)");
   }
 
   private createHeatmap(): void {
@@ -123,6 +126,55 @@ export class HeatmapComponent implements OnInit {
 
     map.on('mouseover', this.tip.show)
        .on('mouseout', this.tip.hide);
+  }
+
+  private createDataColor() {
+    let data_colors = []
+    let min = -1;
+    for (let i=0; i<=8; i++){
+        data_colors.push({
+            "color": this.colors(min),
+            "value": min
+        });
+        min += 0.25;
+    }
+
+    return data_colors
+  }
+
+  private addLegend(): void {
+    let data_colors = this.createDataColor();
+
+    let extent = d3.extent(data_colors, d => d.value);
+
+    this.xLegend = d3.scaleLinear()
+                     .range([0, this.innerWidth])
+                     .domain(extent);
+
+    let xTicks = data_colors.map(d => d.value);
+    let xAxis = d3.axisBottom(this.xLegend)
+                  .tickSize(this.barHeight * 1.5)
+                  .tickValues(xTicks);
+
+    this.legendSVG.append("g")
+                  .call(xAxis)
+                  .select(".domain")
+                  .remove();
+
+    var defs = this.legendSVG.append("defs");
+    var linearGradient = defs.append("linearGradient")
+                             .attr("id", "myGradient");
+    linearGradient.selectAll("stop")
+                  .data(data_colors)
+                  .enter()
+                  .append("stop")
+                  .attr("offset", d => ((d.value - extent[0]) / (extent[1] - extent[0]) * 100) + "%")
+                  .attr("stop-color", d => d.color);
+
+    this.legendSVG.append("rect")
+                  .attr("width", this.innerWidth)
+                  .attr("height", this.barHeight)
+                  .style("fill", "url(#myGradient)");
   }
 
 }
