@@ -5,12 +5,8 @@
 
 #panel {
     position: absolute;
-    top: 250px;
+    top: 100px;
     right: 10px;
-    /*
-    width: 1000px;
-    height: 1000px;
-    */
     display: none;
     padding: 15px 10px;
     text-align: left;

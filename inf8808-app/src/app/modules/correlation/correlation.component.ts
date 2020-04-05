@@ -56,12 +56,12 @@ export class CorrelationComponent implements OnInit {
   private configurationScatterPlot(x: string, y: string): void {
     this.dataService.scatterPlotData.then(data => {
       this.spConfig = {
-        title: 'Yed',
+        title: 'Correlation between ' + x + " and " + y,
         axisYTitle: x,
         axisXTitle: y,
-        width: 460,
-        height: 410,
-        marginTop: 10,
+        width: 510,
+        height: 460,
+        marginTop: 35,
         marginBottom: 30,
         marginRight: 30,
         marginLeft: 60,

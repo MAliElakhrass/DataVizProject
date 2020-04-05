@@ -20,8 +20,7 @@ export class ScatterplotComponent implements OnInit {
 
   private data = [];
 
-  constructor() {
-  }
+  constructor() { }
 
   ngOnInit(): void {
     this.configuration();
@@ -37,8 +36,6 @@ export class ScatterplotComponent implements OnInit {
         'x': this.config.dataset[i][this.config.axisXTitle],
         'y': this.config.dataset[i][this.config.axisYTitle],
       });
-      // x: this.config.dataset.map(row => row[this.config.axisXTitle]),
-      // y: this.config.dataset.map(row => row[this.config.axisYTitle])
     }
 
     this.width = this.config.width - this.config.marginLeft - this.config.marginRight;
@@ -66,16 +63,29 @@ export class ScatterplotComponent implements OnInit {
   }
 
   private createAxis(): void {
-    let xAxis = d3.axisBottom(this.x).tickFormat(d3.format(".4f"));;
+    let xAxis = d3.axisBottom(this.x).tickFormat(d3.format(".2f"));;
     this.g.append("g")
           .attr("class", "axis x")
           .attr("transform", "translate(0," + this.height + ")")
           .call(xAxis);
 
+    this.g.append("text")
+          .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height + this.config.marginBottom) + ")")
+          .style("text-anchor", "middle")
+          .text(this.config.axisXTitle);
+
     let yAxis = d3.axisLeft(this.y);     
     this.g.append("g")
           .attr("class", "axis y")
           .call(yAxis);
+
+    this.g.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -this.config.marginLeft)
+          .attr("x", -(this.height / 2))
+          .attr("dy", "1em")
+          .style("text-anchor", "middle")
+          .text(this.config.axisYTitle);
   }
 
   private createScatterPlot(): void {
@@ -88,6 +98,14 @@ export class ScatterplotComponent implements OnInit {
           .attr("cy", d => this.y(d.y))
           .attr("r", 1.5)
           .style("fill", "#69b3a2");
-  }
 
+    this.g.append("text")
+          .classed("title", true)
+          .attr("x", (this.width / 2))             
+          .attr("y", 0 - (this.config.marginTop / 2))
+          .attr("text-anchor", "middle")  
+          .style("font-size", "16px") 
+          .style("text-decoration", "underline")  
+          .text(this.config.title);
+  }
 }
