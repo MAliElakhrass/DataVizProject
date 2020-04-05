@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HeatMapConfig, ScatterPlotConfig } from 'src/app/shared/graph-configuration';
 import { CorrelationDataService } from 'src/app/services/correlation-data.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-correlation',
@@ -8,6 +9,8 @@ import { CorrelationDataService } from 'src/app/services/correlation-data.servic
   styleUrls: ['./correlation.component.css']
 })
 export class CorrelationComponent implements OnInit {
+
+  public eventsSubject: Subject<ScatterPlotConfig> = new Subject<ScatterPlotConfig>();
 
   public hmConfig: HeatMapConfig;
   public spConfig: ScatterPlotConfig;
@@ -21,8 +24,13 @@ export class CorrelationComponent implements OnInit {
     this.configurationBarChart();
   }
 
-  public showPanel(data): void {
-    this.configurationScatterPlot(data.x, data.y);
+  public async showPanel(data): Promise<void> {
+    await this.configurationScatterPlot(data.x, data.y);
+
+    if (this.selectedClass == true) {
+      this.eventsSubject.next(this.spConfig);
+    }
+
     this.selectedClass = true;
   }
 

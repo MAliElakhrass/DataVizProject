@@ -2,7 +2,7 @@ import { BarChartConfig } from '../../graph-configuration';
 import { Component, OnInit, Input } from '@angular/core';
 import * as d3 from 'd3';
 import d3Tip from "d3-tip";
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-barchart',
@@ -12,8 +12,6 @@ import { Subscription, Observable } from 'rxjs';
 export class BarchartComponent implements OnInit {
 
   @Input() config: BarChartConfig;
-
-  private eventsSubscription: Subscription;
   @Input() events: Observable<BarChartConfig>;
 
   private width: number;
@@ -43,7 +41,7 @@ export class BarchartComponent implements OnInit {
     this.createAxis();
     this.createBarChart();
 
-    this.eventsSubscription = this.events.subscribe((data) => {
+    this.events.subscribe((data) => {
       this.config = data;
       this.updateBarChart();
     });

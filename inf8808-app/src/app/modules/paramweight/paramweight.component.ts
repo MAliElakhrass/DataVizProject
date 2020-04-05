@@ -12,8 +12,6 @@ import { Subject } from 'rxjs';
 })
 export class ParamweightComponent implements OnInit {
 
-  // @Output() tabChange = new EventEmitter();
-
   public eventsSubject: Subject<BarChartConfig> = new Subject<BarChartConfig>();
 
   public bcConfig: BarChartConfig;

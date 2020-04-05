@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ScatterPlotConfig } from '../../graph-configuration';
 import * as d3 from 'd3';
 
@@ -10,6 +11,7 @@ import * as d3 from 'd3';
 export class ScatterplotComponent implements OnInit {
 
   @Input() config: ScatterPlotConfig;
+  @Input() events: Observable<ScatterPlotConfig>;
 
   private width;
   private height;
@@ -28,9 +30,19 @@ export class ScatterplotComponent implements OnInit {
     this.createSVGElement();
     this.createAxis();
     this.createScatterPlot();
+    this.addTitle();
+
+    this.events.subscribe((data) => {
+      this.config = data;
+      this.configuration();
+      this.updateDomain();
+      this.updateAxis();
+      this.updateScatterPlot();
+    });
   }
 
-  private configuration(): void {    
+  private configuration(): void {
+    this.data = []   
     for (let i = 0; i < this.config.dataset.length; i++) {
       this.data.push({
         'x': this.config.dataset[i][this.config.axisXTitle],
@@ -70,6 +82,7 @@ export class ScatterplotComponent implements OnInit {
           .call(xAxis);
 
     this.g.append("text")
+          .classed("xTitle", true)
           .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height + this.config.marginBottom) + ")")
           .style("text-anchor", "middle")
           .text(this.config.axisXTitle);
@@ -80,6 +93,7 @@ export class ScatterplotComponent implements OnInit {
           .call(yAxis);
 
     this.g.append("text")
+          .classed("yTitle", true)
           .attr("transform", "rotate(-90)")
           .attr("y", -this.config.marginLeft)
           .attr("x", -(this.height / 2))
@@ -98,7 +112,9 @@ export class ScatterplotComponent implements OnInit {
           .attr("cy", d => this.y(d.y))
           .attr("r", 1.5)
           .style("fill", "#69b3a2");
+  }
 
+  private addTitle(): void {
     this.g.append("text")
           .classed("title", true)
           .attr("x", (this.width / 2))             
@@ -107,5 +123,35 @@ export class ScatterplotComponent implements OnInit {
           .style("font-size", "16px") 
           .style("text-decoration", "underline")  
           .text(this.config.title);
+  }
+  
+  private updateDomain(): void {
+    let dataX = this.config.dataset.map(row => row[this.config.axisXTitle]);
+    let dataY = this.config.dataset.map(row => row[this.config.axisYTitle]);
+
+    this.x.domain([d3.min(dataX), d3.max(dataX)]);
+    this.y.domain([d3.min(dataY), d3.max(dataY)]);
+  }
+
+  private updateAxis() {
+    let xAxis = d3.axisBottom(this.x).tickFormat(d3.format(".2f"));;
+    this.g.select('.x.axis')
+          .call(xAxis);
+    this.g.selectAll("text.xTitle") 
+          .text(this.config.axisXTitle);
+
+    let yAxis = d3.axisLeft(this.y);
+    this.g.select('.y.axis')
+          .call(yAxis);
+    this.g.selectAll("text.yTitle") 
+          .text(this.config.axisYTitle);
+  }
+
+  private updateScatterPlot(): void {
+    this.g.selectAll("text.title") 
+          .text(this.config.title);
+
+    this.g.selectAll("circle").remove();
+    this.createScatterPlot();
   }
 }
