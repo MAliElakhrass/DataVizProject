@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HeatMapConfig } from '../../graph-configuration';
 import * as d3 from 'd3';
 import d3Tip from "d3-tip";
@@ -11,6 +11,7 @@ import d3Tip from "d3-tip";
 export class HeatmapComponent implements OnInit {
 
   @Input() config: HeatMapConfig;
+  @Output() displayPanel = new EventEmitter
 
   private formatDecimal = d3.format(".4f");
 
@@ -119,9 +120,8 @@ export class HeatmapComponent implements OnInit {
                     .attr("width", this.x.bandwidth())
                     .attr("height", this.y.bandwidth())
                     .style("fill", d => { return this.colors(d.value)} )
-                    .on("click", function (d) {
-                      console.log('click')
-                        // showPanel(d.x, d.y);
+                    .on("click", d => {
+                      this.displayPanel.emit(d);
                     });
 
     map.on('mouseover', this.tip.show)

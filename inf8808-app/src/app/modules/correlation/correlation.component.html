@@ -1,1 +1,9 @@
-<app-heatmap *ngIf="hmConfig" [config]="hmConfig"></app-heatmap>
+<app-heatmap *ngIf="hmConfig" [config]="hmConfig" (displayPanel)='showPanel($event)'></app-heatmap>
+
+<aside id="panel" [class.selected]="selectedClass">
+  <button title="Fermer" (click)='closePanel()'>
+    <img alt="Fermer" src="./assets/img/close.svg">
+  </button>
+  <h1>Scatter Plot</h1>
+  <app-scatterplot *ngIf="spConfig" [config]="spConfig"></app-scatterplot>
+</aside>

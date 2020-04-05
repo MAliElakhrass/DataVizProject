@@ -1,5 +1,5 @@
 import { ParamWeight } from './../services/param-weight-data.service';
-import { CorrMatrix } from '../services/correlation-data.service';
+import { CorrMatrix, ScatterPlotData } from '../services/correlation-data.service';
 /**
  * All configuration parameters
  */
@@ -22,4 +22,17 @@ export interface HeatMapConfig {
   marginRight: number;
   marginLeft: number;
   dataset: Array<CorrMatrix>;
+}
+
+export interface ScatterPlotConfig {
+  title: string;
+  axisYTitle: string;
+  axisXTitle: string;
+  width: number;
+  height: number;
+  marginTop: number;
+  marginBottom: number;
+  marginRight: number;
+  marginLeft: number;
+  dataset: Array<ScatterPlotData>;
 }

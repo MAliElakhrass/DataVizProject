@@ -13,6 +13,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { BarchartComponent } from './components/barchart/barchart.component';
 import { HeatmapComponent } from './components/heatmap/heatmap.component';
+import { ScatterplotComponent } from './components/scatterplot/scatterplot.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HeatmapComponent } from './components/heatmap/heatmap.component';
     FooterComponent,
     SidebarComponent,
     BarchartComponent,
-    HeatmapComponent
+    HeatmapComponent,
+    ScatterplotComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { HeatmapComponent } from './components/heatmap/heatmap.component';
     FooterComponent,
     SidebarComponent,
     BarchartComponent,
-    HeatmapComponent
+    HeatmapComponent,
+    ScatterplotComponent
   ]
 })
 export class SharedModule { }
