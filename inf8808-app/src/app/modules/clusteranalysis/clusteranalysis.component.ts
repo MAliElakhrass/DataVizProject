@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ClusteringDataService } from 'src/app/services/clustering-data.service';
 
 @Component({
   selector: 'app-clusteranalysis',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClusteranalysisComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataService: ClusteringDataService) { }
 
   ngOnInit(): void {
   }
