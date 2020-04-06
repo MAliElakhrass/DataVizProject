@@ -13,6 +13,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { CorrelationComponent } from 'src/app/modules/correlation/correlation.component';
 import { CorrelationDataService } from 'src/app/services/correlation-data.service';
 import { ClusteranalysisComponent } from 'src/app/modules/clusteranalysis/clusteranalysis.component';
+import { ClusteringDataService } from 'src/app/services/clustering-data.service';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ClusteranalysisComponent } from 'src/app/modules/clusteranalysis/cluste
   ],
   providers: [
     ParamWeightDataService,
-    CorrelationDataService
+    CorrelationDataService,
+    ClusteringDataService
   ]
 })
 export class DefaultModule { }
