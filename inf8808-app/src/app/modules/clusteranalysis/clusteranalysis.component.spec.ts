@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BubblechartComponent } from './bubblechart.component';
+import { ClusteranalysisComponent } from './clusteranalysis.component';
 
-describe('BubblechartComponent', () => {
-  let component: BubblechartComponent;
-  let fixture: ComponentFixture<BubblechartComponent>;
+describe('ClusteranalysisComponent', () => {
+  let component: ClusteranalysisComponent;
+  let fixture: ComponentFixture<ClusteranalysisComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BubblechartComponent ]
+      declarations: [ ClusteranalysisComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BubblechartComponent);
+    fixture = TestBed.createComponent(ClusteranalysisComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

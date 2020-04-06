@@ -1,10 +1,10 @@
 import { ParamweightComponent } from './modules/paramweight/paramweight.component';
 import { MainpageComponent } from './modules/mainpage/mainpage.component';
-import { BubblechartComponent } from './modules/bubblechart/bubblechart.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DefaultComponent } from './layouts/default/default.component';
 import { CorrelationComponent } from './modules/correlation/correlation.component';
+import { ClusteranalysisComponent } from './modules/clusteranalysis/clusteranalysis.component';
 
 
 const routes: Routes = [{
@@ -15,8 +15,8 @@ const routes: Routes = [{
     component: MainpageComponent
   },
   {
-    path: 'bubblechart',
-    component: BubblechartComponent   
+    path: 'clusteranalysis',
+    component: ClusteranalysisComponent   
   },
   {
     path: 'paramweight',

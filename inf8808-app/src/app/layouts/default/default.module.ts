@@ -12,13 +12,15 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CorrelationComponent } from 'src/app/modules/correlation/correlation.component';
 import { CorrelationDataService } from 'src/app/services/correlation-data.service';
+import { ClusteranalysisComponent } from 'src/app/modules/clusteranalysis/clusteranalysis.component';
 
 @NgModule({
   declarations: [
     DefaultComponent,
     MainpageComponent,
     ParamweightComponent,
-    CorrelationComponent
+    CorrelationComponent,
+    ClusteranalysisComponent
   ],
   imports: [
     CommonModule,
