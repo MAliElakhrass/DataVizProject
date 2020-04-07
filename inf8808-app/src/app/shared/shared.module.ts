@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { BarchartComponent } from './components/barchart/barchart.component';
 import { HeatmapComponent } from './components/heatmap/heatmap.component';
 import { ScatterplotComponent } from './components/scatterplot/scatterplot.component';
+import { BubblechartComponent } from './components/bubblechart/bubblechart.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ScatterplotComponent } from './components/scatterplot/scatterplot.compo
     SidebarComponent,
     BarchartComponent,
     HeatmapComponent,
-    ScatterplotComponent
+    ScatterplotComponent,
+    BubblechartComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,8 @@ import { ScatterplotComponent } from './components/scatterplot/scatterplot.compo
     SidebarComponent,
     BarchartComponent,
     HeatmapComponent,
-    ScatterplotComponent
+    ScatterplotComponent,
+    BubblechartComponent
   ]
 })
 export class SharedModule { }

@@ -1,5 +1,6 @@
 import { ParamWeight } from './../services/param-weight-data.service';
 import { CorrMatrix, ScatterPlotData } from '../services/correlation-data.service';
+import { ClusteringData } from '../services/clustering-data.service';
 /**
  * All configuration parameters
  */
@@ -35,4 +36,11 @@ export interface ScatterPlotConfig {
   marginRight: number;
   marginLeft: number;
   dataset: Array<ScatterPlotData>;
+}
+
+export interface ClusteringConfig {
+  width: number;
+  height: number;
+  margins: number;
+  dataset: Array<ClusteringData>;
 }
