@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ClusteringConfig } from '../../graph-configuration';
 import * as d3 from 'd3';
+import TSNE from 'tsne-js';
 
 @Component({
   selector: 'app-bubblechart',
@@ -17,7 +18,9 @@ export class BubblechartComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.configuration();  
+    this.configuration();
+    console.log(this.data);
+    this.createModel();
   }
 
   /*
@@ -49,6 +52,35 @@ export class BubblechartComponent implements OnInit {
         this.config.dataset[i]['Rating'],
       ]);
     }
+  }
+
+  private createModel(): void {
+    this.model = new TSNE({
+      dim: 2,
+      perplexity: 30.0,
+      earlyExaggeration: 4.0,
+      learningRate: 100.0,
+      nIter: 1000,
+      metric: 'euclidean'
+    });
+    
+    this.model.init({
+      data: this.data.slice(0, 10000),
+      type: 'dense'
+    });
+     
+    // `error`,  `iter`: final error and iteration number
+    // note: computation-heavy action happens here
+    let [error, iter] = this.model.run();
+     
+    // rerun without re-calculating pairwise distances, etc.
+    [error, iter] = this.model.rerun();
+     
+    // `output` is unpacked ndarray (regular nested javascript array)
+    let output = this.model.getOutput();
+     
+    // `outputScaled` is `output` scaled to a range of [-1, 1]
+    let outputScaled = this.model.getOutputScaled();
   }
 
 }
