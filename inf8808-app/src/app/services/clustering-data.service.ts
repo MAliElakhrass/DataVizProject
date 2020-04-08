@@ -8,6 +8,7 @@ export interface VideoGamesData {
   Year_of_Release: number;
   Genre: string;
   Publisher: string;
+  Global_Sales: number;
   NA_Sales: number;
   EU_Sales: number;
   JP_Sales: number;
@@ -31,6 +32,7 @@ export interface ClusteringData {
   Year_of_Release: number;
   Genre: string;
   Publisher: string;
+  Global_Sales: number;
   NA_Sales: number;
   EU_Sales: number;
   JP_Sales: number;
@@ -70,6 +72,7 @@ export class ClusteringDataService {
           Year_of_Release: parseFloat(d.Year_of_Release),
           Genre: d.Genre,
           Publisher: d.Publisher,
+          Global_Sales: parseFloat(d.Global_Sales),
           NA_Sales: parseFloat(d.NA_Sales),
           EU_Sales: parseFloat(d.EU_Sales),
           JP_Sales: parseFloat(d.JP_Sales),

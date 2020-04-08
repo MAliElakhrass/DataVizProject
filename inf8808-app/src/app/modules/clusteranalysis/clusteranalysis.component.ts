@@ -29,6 +29,7 @@ export class ClusteranalysisComponent implements OnInit {
             Year_of_Release: d[index].Year_of_Release,
             Genre: d[index].Genre,
             Publisher: d[index].Publisher,
+            Global_Sales: d[index].Global_Sales,
             NA_Sales: d[index].NA_Sales,
             EU_Sales: d[index].EU_Sales,
             JP_Sales: d[index].JP_Sales,
@@ -55,7 +56,7 @@ export class ClusteranalysisComponent implements OnInit {
       marginBottom: 10,
       marginRight: 25,
       marginLeft: 25,
-      radiusParameter: 'NA_Sales',
+      radiusParameter: 'Global_Sales',
       dataset: this.dataset,
     };
   }

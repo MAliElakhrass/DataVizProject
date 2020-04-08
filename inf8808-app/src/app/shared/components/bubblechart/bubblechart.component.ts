@@ -4,6 +4,10 @@ import * as d3 from 'd3';
 import { legendColor } from 'd3-svg-legend'
 import d3Tip from "d3-tip";
 
+interface Selections {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-bubblechart',
@@ -23,9 +27,18 @@ export class BubblechartComponent implements OnInit {
   private width: number;
   private height: number;
 
-  public foods: string[] = ['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales'];
+  public regions: Selections[] = [
+    {value: 'Global_Sales', viewValue: 'Global'},
+    {value: 'NA_Sales', viewValue: 'North America'},
+    {value: 'EU_Sales', viewValue: 'Europe'},
+    {value: 'JP_Sales', viewValue: 'Japan'},
+    {value: 'Other_Sales', viewValue: 'Other'},
+  ]
+  public selectedValue: string;
 
-  constructor() { }
+  constructor() {
+    this.selectedValue = 'Global_Sales';
+  }
 
   ngOnInit(): void {
     this.configuration();
@@ -63,7 +76,7 @@ export class BubblechartComponent implements OnInit {
     this.y = d3.scaleLinear().range([this.height, 0]);
     this.y.domain([d3.min(yValues), d3.max(yValues)]);
 
-    let rValues = this.config.dataset.map(row => row[this.config.radiusParameter]);
+    let rValues = this.config.dataset.map(row => row[this.selectedValue]);
     this.r = d3.scaleLinear().range([2, 40]);
     this.r.domain([d3.min(rValues), d3.max(rValues)]);
 
@@ -99,15 +112,6 @@ export class BubblechartComponent implements OnInit {
           .on('mouseout', this.tip.hide);
   }
 
-  private getPalette(domains) {
-    let palette = [];
-    for (let domain in domains) {
-      palette.push(this.myColor(domain))
-    }
-
-    return palette
-  }
-
   private addLegend(): void {
     let colorDomain: any = [...new Set(this.config.dataset.map(row => row.Genre))];
     console.log(colorDomain)
@@ -119,6 +123,23 @@ export class BubblechartComponent implements OnInit {
                   .scale(this.myColor);
 
     svg.append('g').attr("transform", "translate(10,67)").call(legend);
+  }
+
+  private transition() {
+    let rValues = this.config.dataset.map(row => row[this.selectedValue]);
+    this.r = d3.scaleLinear().range([2, 40]);
+    this.r.domain([d3.min(rValues), d3.max(rValues)]);
+
+    this.g.selectAll("circle")
+          .data(this.config.dataset)
+          .transition()
+          .duration(1000)
+          .attr("r", d => this.r(d[this.selectedValue]));
+  }
+
+  public onRegionSelection(value): void {
+    this.selectedValue = value;
+    this.transition();
   }
 }
 

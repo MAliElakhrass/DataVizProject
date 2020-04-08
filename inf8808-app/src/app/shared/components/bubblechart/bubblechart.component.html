@@ -1,14 +1,16 @@
 <mat-toolbar color="grey">
         <span>Color Legend</span>
         <svg id="Legend"></svg>
-        <span>Radius By: </span>
-        <mat-form-field>
-            <mat-select>
-              <mat-option *ngFor="let food of foods">
-                {{food}}
-              </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" id="Selection">
+            <mat-form-field >
+                <mat-label>Radius By</mat-label>
+                <mat-select (selectionChange)="onRegionSelection($event.value)">
+                    <mat-option *ngFor="let region of regions" [value]="region.value">
+                        {{region.viewValue}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
   </mat-toolbar>
   
 
