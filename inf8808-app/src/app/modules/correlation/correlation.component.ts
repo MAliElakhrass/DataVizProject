@@ -65,8 +65,8 @@ export class CorrelationComponent implements OnInit {
     this.dataService.scatterPlotData.then(data => {
       this.spConfig = {
         title: 'Correlation between ' + x + " and " + y,
-        axisYTitle: x,
-        axisXTitle: y,
+        axisYTitle: y,
+        axisXTitle: x,
         width: 510,
         height: 460,
         marginTop: 35,
