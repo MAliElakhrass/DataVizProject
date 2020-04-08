@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ClusteringConfig } from '../../graph-configuration';
 import * as d3 from 'd3';
-import TSNE from 'tsne-js';
 
 @Component({
   selector: 'app-bubblechart',
@@ -12,75 +11,111 @@ export class BubblechartComponent implements OnInit {
 
   @Input() config: ClusteringConfig;
 
-  private model;
-  private data = [];
+  private g;
+  private x;
+  private y;
+  private r;
+  private myColor;
+  private tooltip;
+
+  private width: number;
+  private height: number;
+
+  private showTooltip = function(d) {
+    this.tooltip
+        .transition()
+        .duration(200)
+    this.tooltip
+        .style("opacity", 1)
+        .html("Game: " + d.Name)
+        .style("left", (d3.mouse(this)[0]+30) + "px")
+        .style("top", (d3.mouse(this)[1]+30) + "px");
+  }
+  
+  private moveTooltip = function(d) {
+    this.tooltip
+        .style("left", (d3.mouse(this)[0]+30) + "px")
+        .style("top", (d3.mouse(this)[1]+30) + "px");
+  }
+
+  private hideTooltip = function(d) {
+    this.tooltip
+        .transition()
+        .duration(200)
+        .style("opacity", 0);
+  }
 
   constructor() { }
 
   ngOnInit(): void {
     this.configuration();
-    console.log(this.data);
-    this.createModel();
+    this.createSVGobject();
+    this.setScaleDomain();
+    this.createTooltip();
+    this.createBubbleChart();
   }
-
-  /*
-  private setScale(): void {
-    const scalepop = d3.scaleSqrt().domain([0, 100000]).range([0.2, 24]),
-          scalecountry = d3.scaleOrdinal(d3.schemeCategory20b),
-          centerx = d3.scaleLinear().range([width / 2 - height / 2 + margin, width / 2 + height / 2 - margin]),
-          centery = d3.scaleLinear().range([margin, height - margin]);
-  }
-  */
 
   private configuration(): void {
-    this.data = []   
-    for (let i = 0; i < this.config.dataset.length; i++) {
-      this.data.push([
-        this.config.dataset[i]['Platform'],
-        this.config.dataset[i]['Year_of_Release'],
-        this.config.dataset[i]['Genre'],
-        this.config.dataset[i]['Publisher'],
-        this.config.dataset[i]['NA_Sales'],
-        this.config.dataset[i]['EU_Sales'],
-        this.config.dataset[i]['JP_Sales'],
-        this.config.dataset[i]['Other_Sales'],
-        this.config.dataset[i]['Critic_Count'],
-        this.config.dataset[i]['Critic_Score'],
-        this.config.dataset[i]['User_Score'],
-        this.config.dataset[i]['User_Count'],
-        this.config.dataset[i]['Developer'],
-        this.config.dataset[i]['Rating'],
-      ]);
-    }
+    this.width = this.config.width - this.config.marginLeft - this.config.marginRight;
+    this.height = this.config.height - this.config.marginTop - this.config.marginBottom;
   }
 
-  private createModel(): void {
-    this.model = new TSNE({
-      dim: 2,
-      perplexity: 30.0,
-      earlyExaggeration: 4.0,
-      learningRate: 100.0,
-      nIter: 1000,
-      metric: 'euclidean'
-    });
+  private createSVGobject(): void {
+    this.g = d3.select("#bubble-chart")
+               .append("svg")
+               .attr("width", this.config.width)
+               .attr("height", this.config.height)
+               .append("g")
+               .attr("transform", "translate(" + this.config.marginLeft + "," + this.config.marginTop + ")")
+  }
+
+  private setScaleDomain(): void {
+    let xValues = this.config.dataset.map(row => row.x);
+    this.x = d3.scaleLinear().range([0, this.width]);
+    this.x.domain([d3.min(xValues), d3.max(xValues)]);
+
+    let yValues = this.config.dataset.map(row => row.y);
+    this.y = d3.scaleLinear().range([this.height, 0]);
+    this.y.domain([d3.min(yValues), d3.max(yValues)]);
+
+    let rValues = this.config.dataset.map(row => row[this.config.radiusParameter]);
+    this.r = d3.scaleSqrt().range([2, 40]);
+    this.r.domain([d3.min(rValues), d3.max(rValues)]);
+
+    let colorValues = this.config.dataset.map(row => row.Genre);
+    colorValues = [...new Set(colorValues)];
+    this.myColor = d3.scaleOrdinal()
+                     .domain(colorValues)
+                     .range(d3.schemeSet2);
+  }
+
+  private createTooltip(): void {
+    this.tooltip = d3.select("#bubble-chart")
+                     .append("div")
+                     .style("opacity", 0)
+                     .attr("class", "tooltip")
+                     .style("background-color", "black")
+                     .style("border-radius", "5px")
+                     .style("padding", "10px")
+                     .style("color", "white")
+  }
+
+  private createBubbleChart(): void {
     
-    this.model.init({
-      data: this.data.slice(0, 10000),
-      type: 'dense'
-    });
-     
-    // `error`,  `iter`: final error and iteration number
-    // note: computation-heavy action happens here
-    let [error, iter] = this.model.run();
-     
-    // rerun without re-calculating pairwise distances, etc.
-    [error, iter] = this.model.rerun();
-     
-    // `output` is unpacked ndarray (regular nested javascript array)
-    let output = this.model.getOutput();
-     
-    // `outputScaled` is `output` scaled to a range of [-1, 1]
-    let outputScaled = this.model.getOutputScaled();
+    this.g.append('g')
+          .selectAll('dot')
+          .data(this.config.dataset)
+          .enter()
+          .append('circle')
+          .attr('class', 'bubbles')
+          .attr('cx', d => this.x(d.x))
+          .attr('cy', d => this.y(d.y))
+          .attr('r', d => this.r(d[this.config.radiusParameter]))
+          .style('fill', d => this.myColor(d.Genre));
+          /*
+          .on("mouseover", this.showTooltip )
+          .on("mousemove", this.moveTooltip )
+          .on("mouseleave", this.hideTooltip ); */
   }
 
 }

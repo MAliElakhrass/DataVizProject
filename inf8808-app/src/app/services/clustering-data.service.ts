@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as d3 from 'd3';
 
-export interface ClusteringData {
+export interface VideoGamesData {
   Name: string;
-  Platform: number;
+  Platform: string;
   Year_of_Release: number;
-  Genre: number;
-  Publisher: number;
+  Genre: string;
+  Publisher: string;
   NA_Sales: number;
   EU_Sales: number;
   JP_Sales: number;
@@ -16,8 +16,33 @@ export interface ClusteringData {
   Critic_Score: number;
   User_Score: number;
   User_Count: number;
-  Developer: number;
-  Rating: number;
+  Developer: string;
+  Rating: string;
+}
+
+export interface PositionData {
+  x: number,
+  y: number
+}
+
+export interface ClusteringData {
+  Name: string;
+  Platform: string;
+  Year_of_Release: number;
+  Genre: string;
+  Publisher: string;
+  NA_Sales: number;
+  EU_Sales: number;
+  JP_Sales: number;
+  Other_Sales: number;
+  Critic_Count: number;
+  Critic_Score: number;
+  User_Score: number;
+  User_Count: number;
+  Developer: string;
+  Rating: string;
+  x: number;
+  y: number;
 }
 
 @Injectable({
@@ -25,23 +50,26 @@ export interface ClusteringData {
 })
 export class ClusteringDataService {
 
-  public clusteringData: Promise<ClusteringData[]>;
+  public videogameData: Promise<VideoGamesData[]>;
+  public clusteringData: Promise<PositionData[]>;
 
   constructor(private http: HttpClient) {
-    this.clusteringData = this.readData();
+    this.videogameData = this.readVideoGameData();
+    this.clusteringData = this.readClusteringData();
+
   }
 
-  private readData(): Promise<ClusteringData[]> {
+  private readVideoGameData(): Promise<VideoGamesData[]> {
     const PATH = 'assets/data/videogames.csv';
 
     return this.http.get(PATH, { responseType: 'text' }).toPromise().then(results => {
       return d3.csvParse(results, function(d) {
         return {
           Name: d.Name,
-          Platform: parseFloat(d.Platform),
+          Platform: d.Platform,
           Year_of_Release: parseFloat(d.Year_of_Release),
-          Genre: parseFloat(d.Genre),
-          Publisher: parseFloat(d.Publisher),
+          Genre: d.Genre,
+          Publisher: d.Publisher,
           NA_Sales: parseFloat(d.NA_Sales),
           EU_Sales: parseFloat(d.EU_Sales),
           JP_Sales: parseFloat(d.JP_Sales),
@@ -50,8 +78,21 @@ export class ClusteringDataService {
           Critic_Score: parseFloat(d.Critic_Score),
           User_Score: parseFloat(d.User_Score),
           User_Count: parseFloat(d.User_Count),
-          Developer: parseFloat(d.Developer),
-          Rating: parseFloat(d.Rating)
+          Developer: d.Developer,
+          Rating: d.Rating
+        }
+      });
+    });
+  }
+
+  private readClusteringData(): Promise<PositionData[]> {
+    const PATH = 'assets/data/clustering.csv';
+
+    return this.http.get(PATH, { responseType: 'text' }).toPromise().then(results => {
+      return d3.csvParse(results, function(d) {
+        return {
+          x: parseFloat(d.X),
+          y: parseFloat(d.Y)
         }
       });
     });
