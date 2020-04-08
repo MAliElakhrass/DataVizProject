@@ -43,12 +43,16 @@ export class BubblechartComponent implements OnInit {
                .append("svg")
                .attr("width", this.config.width)
                .attr("height", this.config.height)
+               .call(d3.zoom().on("zoom", d => {
+                 this.g.attr("transform", d3.event.transform)
+               }))
                .append("g")
-              //  .attr("transform", "translate(" + this.config.marginLeft + "," + this.config.marginTop + ")");
+               .attr("transform", "translate(" + this.config.marginLeft + "," + this.config.marginTop + ")");
+              /*
     let svg = this.g
     this.g.call(d3.zoom().on("zoom", function () {
                 svg.attr("transform", d3.event.transform)
-                }))
+                }))*/
   }
 
   private setScaleDomain(): void {
