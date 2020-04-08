@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ClusteringDataService, ClusteringData } from 'src/app/services/clustering-data.service';
 import { ClusteringConfig } from 'src/app/shared/graph-configuration';
 
@@ -49,12 +49,12 @@ export class ClusteranalysisComponent implements OnInit {
 
   private configurateClustering(): void {
     this.cConfig = {
-      width: 1500,
-      height: 1000,
+      width: window.innerWidth - 400,
+      height: window.innerHeight - 100,
       marginTop: 10,
-      marginBottom: 30,
-      marginRight: 20,
-      marginLeft: 50,
+      marginBottom: 10,
+      marginRight: 25,
+      marginLeft: 25,
       radiusParameter: 'NA_Sales',
       dataset: this.dataset,
     };

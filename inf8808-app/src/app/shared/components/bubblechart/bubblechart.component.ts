@@ -79,7 +79,7 @@ export class BubblechartComponent implements OnInit {
     this.y.domain([d3.min(yValues), d3.max(yValues)]);
 
     let rValues = this.config.dataset.map(row => row[this.config.radiusParameter]);
-    this.r = d3.scaleSqrt().range([2, 40]);
+    this.r = d3.scaleLinear().range([2, 40]);
     this.r.domain([d3.min(rValues), d3.max(rValues)]);
 
     let colorValues = this.config.dataset.map(row => row.Genre);
@@ -101,7 +101,6 @@ export class BubblechartComponent implements OnInit {
   }
 
   private createBubbleChart(): void {
-    
     this.g.append('g')
           .selectAll('dot')
           .data(this.config.dataset)
