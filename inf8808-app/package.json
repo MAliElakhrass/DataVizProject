@@ -25,6 +25,7 @@
     "@angular/router": "~9.1.0",
     "angular-material-source": "github:angular/material",
     "d3": "^5.15.0",
+    "d3-svg-legend": "^2.25.6",
     "d3-tip": "^0.9.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",

@@ -1,14 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ClusteringConfig } from '../../graph-configuration';
 import * as d3 from 'd3';
+import * as d3Legend from 'd3-svg-legend'
 import d3Tip from "d3-tip";
+
+
 @Component({
   selector: 'app-bubblechart',
   templateUrl: './bubblechart.component.html',
   styleUrls: ['./bubblechart.component.css']
 })
-
-
 export class BubblechartComponent implements OnInit {
 
   @Input() config: ClusteringConfig;
@@ -22,6 +23,8 @@ export class BubblechartComponent implements OnInit {
   private width: number;
   private height: number;
 
+  public foods: string[] = ['NA_Sales', 'EU_Sales', 'JP_Sales', 'Other_Sales'];
+
   constructor() { }
 
   ngOnInit(): void {
@@ -30,6 +33,7 @@ export class BubblechartComponent implements OnInit {
     this.setScaleDomain();
     this.createTooltip();
     this.createBubbleChart();
+    this.addLegend();
   }
 
   private configuration(): void {
@@ -48,11 +52,6 @@ export class BubblechartComponent implements OnInit {
                }))
                .append("g")
                .attr("transform", "translate(" + this.config.marginLeft + "," + this.config.marginTop + ")");
-              /*
-    let svg = this.g
-    this.g.call(d3.zoom().on("zoom", function () {
-                svg.attr("transform", d3.event.transform)
-                }))*/
   }
 
   private setScaleDomain(): void {
@@ -93,8 +92,35 @@ export class BubblechartComponent implements OnInit {
           .attr('cy', d => this.y(d.y))
           .attr('r', d => this.r(d[this.config.radiusParameter]))
           .style('fill', d => this.myColor(d.Genre))
+          .style('fill-opacity', 0.8)
+          .style('stroke', 'black')
+          .style('stroke-width', 0.1)
           .on('mouseover', this.tip.show)
           .on('mouseout', this.tip.hide);
+  }
+
+  private addLegend(): void {
+    let colorDomain = [...new Set(this.config.dataset.map(row => row.Genre))];
+
+    let linear = d3.scaleLinear()
+                   .domain([0,12])
+                   .range([this.myColor(colorDomain[0]), this.myColor(colorDomain[12])]);
+
+    let svg = d3.select("#Legend")
+                .append("svg")
+                .attr("width", 950);
+
+    svg.append('g')
+       .attr("class", "legendLinear")
+       .attr("transform", "translate(10,70)")
+
+    var legendLinear = d3Legend.legendColor()
+                               .shapeWidth(75)
+                               .cells(12)
+                               .orient('horizontal')
+                               .scale(linear);
+     
+    svg.select(".legendLinear").call(legendLinear);
   }
 }
 

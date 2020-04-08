@@ -1,1 +1,15 @@
+<mat-toolbar color="grey">
+        <span>Color Legend</span>
+        <div id="Legend"></div>
+        <span>Radius By: </span>
+        <mat-form-field>
+            <mat-select>
+              <mat-option *ngFor="let food of foods">
+                {{food}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+  </mat-toolbar>
+  
+
 <div id="bubble-chart"></div>
