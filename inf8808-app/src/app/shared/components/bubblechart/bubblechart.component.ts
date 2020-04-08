@@ -1,12 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ClusteringConfig } from '../../graph-configuration';
 import * as d3 from 'd3';
-
+import d3Tip from "d3-tip";
 @Component({
   selector: 'app-bubblechart',
   templateUrl: './bubblechart.component.html',
   styleUrls: ['./bubblechart.component.css']
 })
+
+
 export class BubblechartComponent implements OnInit {
 
   @Input() config: ClusteringConfig;
@@ -16,34 +18,9 @@ export class BubblechartComponent implements OnInit {
   private y;
   private r;
   private myColor;
-  private tooltip;
-
+  private tip;
   private width: number;
   private height: number;
-
-  private showTooltip = function(d) {
-    this.tooltip
-        .transition()
-        .duration(200)
-    this.tooltip
-        .style("opacity", 1)
-        .html("Game: " + d.Name)
-        .style("left", (d3.mouse(this)[0]+30) + "px")
-        .style("top", (d3.mouse(this)[1]+30) + "px");
-  }
-  
-  private moveTooltip = function(d) {
-    this.tooltip
-        .style("left", (d3.mouse(this)[0]+30) + "px")
-        .style("top", (d3.mouse(this)[1]+30) + "px");
-  }
-
-  private hideTooltip = function(d) {
-    this.tooltip
-        .transition()
-        .duration(200)
-        .style("opacity", 0);
-  }
 
   constructor() { }
 
@@ -90,17 +67,13 @@ export class BubblechartComponent implements OnInit {
   }
 
   private createTooltip(): void {
-    this.tooltip = d3.select("#bubble-chart")
-                     .append("div")
-                     .style("opacity", 0)
-                     .attr("class", "tooltip")
-                     .style("background-color", "black")
-                     .style("border-radius", "5px")
-                     .style("padding", "10px")
-                     .style("color", "white")
+    this.tip = d3Tip().attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(d => "Game: " + d.Name)
   }
 
   private createBubbleChart(): void {
+    this.g.call(this.tip);
     this.g.append('g')
           .selectAll('dot')
           .data(this.config.dataset)
@@ -110,11 +83,9 @@ export class BubblechartComponent implements OnInit {
           .attr('cx', d => this.x(d.x))
           .attr('cy', d => this.y(d.y))
           .attr('r', d => this.r(d[this.config.radiusParameter]))
-          .style('fill', d => this.myColor(d.Genre));
-          /*
-          .on("mouseover", this.showTooltip )
-          .on("mousemove", this.moveTooltip )
-          .on("mouseleave", this.hideTooltip ); */
+          .style('fill', d => this.myColor(d.Genre))
+          .on('mouseover', this.tip.show)
+          .on('mouseout', this.tip.hide);
   }
 
 }
