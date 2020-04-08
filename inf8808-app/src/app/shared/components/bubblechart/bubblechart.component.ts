@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ClusteringConfig } from '../../graph-configuration';
 import * as d3 from 'd3';
-import * as d3Legend from 'd3-svg-legend'
+import { legendColor } from 'd3-svg-legend'
 import d3Tip from "d3-tip";
 
 
@@ -99,28 +99,26 @@ export class BubblechartComponent implements OnInit {
           .on('mouseout', this.tip.hide);
   }
 
+  private getPalette(domains) {
+    let palette = [];
+    for (let domain in domains) {
+      palette.push(this.myColor(domain))
+    }
+
+    return palette
+  }
+
   private addLegend(): void {
-    let colorDomain = [...new Set(this.config.dataset.map(row => row.Genre))];
+    let colorDomain: any = [...new Set(this.config.dataset.map(row => row.Genre))];
+    console.log(colorDomain)
 
-    let linear = d3.scaleLinear()
-                   .domain([0,12])
-                   .range([this.myColor(colorDomain[0]), this.myColor(colorDomain[12])]);
+    let svg = d3.select("#Legend").attr('width', 882);
+    let legend = legendColor()
+                  .orient('horizontal')
+                  .shapeWidth(70)
+                  .scale(this.myColor);
 
-    let svg = d3.select("#Legend")
-                .append("svg")
-                .attr("width", 950);
-
-    svg.append('g')
-       .attr("class", "legendLinear")
-       .attr("transform", "translate(10,70)")
-
-    var legendLinear = d3Legend.legendColor()
-                               .shapeWidth(75)
-                               .cells(12)
-                               .orient('horizontal')
-                               .scale(linear);
-     
-    svg.select(".legendLinear").call(legendLinear);
+    svg.append('g').attr("transform", "translate(10,67)").call(legend);
   }
 }
 
