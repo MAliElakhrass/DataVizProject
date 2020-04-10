@@ -66,6 +66,7 @@
 
 .label {
     margin-top: 25px;
+    margin-left: 20px;
     padding: 5px;
     font-size: 1.4em;
 }
@@ -81,7 +82,8 @@ mat-card{
 }
 
 #definition{
+  text-align: justify;
   margin-left: 20px;
   margin-top: 20px;
-  width:400px;
+  width:26%;
 }

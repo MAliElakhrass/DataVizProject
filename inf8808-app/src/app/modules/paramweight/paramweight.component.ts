@@ -43,7 +43,6 @@ export class ParamweightComponent implements OnInit {
 
   async ngOnInit() {
     this.configurationBarChart(this.dataService.nonSaleData);
-
   }
 
   @HostListener('window:resize', ['$event'])
