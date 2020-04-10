@@ -60,11 +60,11 @@
 }
 
 /***** Selec *****/
-select {
-    width: 100%;
+#tabSelection {
+  margin-top: 15px;
 }
 
-.label, select {
+.label {
     margin-top: 25px;
     padding: 5px;
     font-size: 1.4em;

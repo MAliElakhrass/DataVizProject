@@ -15,6 +15,7 @@ import { CorrelationComponent } from 'src/app/modules/correlation/correlation.co
 import { CorrelationDataService } from 'src/app/services/correlation-data.service';
 import { ClusteranalysisComponent } from 'src/app/modules/clusteranalysis/clusteranalysis.component';
 import { ClusteringDataService } from 'src/app/services/clustering-data.service';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ClusteringDataService } from 'src/app/services/clustering-data.service'
     MatDividerModule,
     MatCardModule,
     MatTabsModule,
+    MatSelectModule,
     HttpClientModule
   ],
   providers: [
