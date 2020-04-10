@@ -1,6 +1,6 @@
 import { BarChartConfig } from 'src/app/shared/graph-configuration';
 import { ParamWeightDataService } from './../../services/param-weight-data.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Subject } from 'rxjs';
 import { UiService } from 'src/app/services/ui.service';
@@ -20,8 +20,9 @@ export class ParamweightComponent implements OnInit {
   public eventsSubject: Subject<BarChartConfig> = new Subject<BarChartConfig>();
   public bcConfig: BarChartConfig;
   private sideNavOpen: Boolean;
+  private innerWidth: number;
 
-  public selections = [
+  public selections: Selections[] = [
     {value: 'alpha', viewValue: 'Attribute name'},
     {value: 'ascending', viewValue: 'Ascending'},
     {value: 'descending', viewValue: 'Descending'},
@@ -33,14 +34,19 @@ export class ParamweightComponent implements OnInit {
               private uiService: UiService) {
     this.sideNavOpen = true;
     this.tabSelection = 0;
+    this.innerWidth = window.innerWidth;
     this.uiService.changeEmitted$.subscribe(data => {
-      console.log(window)
       this.sideNavOpen = data;
     })
   }
 
   async ngOnInit() {
     this.configurationBarChart(this.dataService.nonSaleData);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = window.innerWidth;
   }
 
   /**
@@ -84,7 +90,7 @@ export class ParamweightComponent implements OnInit {
     dataset.then(data => {
       console.log(window)
       this.bcConfig = {
-        width: window.innerWidth*0.75,
+        width: this.innerWidth*0.75,
         height: 650,
         marginTop: 55,
         marginBottom: 100,

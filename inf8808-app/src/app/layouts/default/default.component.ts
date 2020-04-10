@@ -7,7 +7,7 @@ import { UiService } from 'src/app/services/ui.service';
   styleUrls: ['./default.component.css']
 })
 export class DefaultComponent implements OnInit {
-  private sideBarOpen = true;
+  public sideBarOpen = true;
 
   constructor(private uiservice: UiService) { }
 
