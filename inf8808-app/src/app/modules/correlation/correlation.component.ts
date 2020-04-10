@@ -3,6 +3,7 @@ import { HeatMapConfig, ScatterPlotConfig } from 'src/app/shared/graph-configura
 import { CorrelationDataService } from 'src/app/services/correlation-data.service';
 import { Subject } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
+import { UiService } from 'src/app/services/ui.service';
 
 @Component({
   selector: 'app-correlation',
@@ -17,7 +18,8 @@ export class CorrelationComponent implements OnInit {
   public spConfig: ScatterPlotConfig;
   public selectedClass;
 
-  constructor(private dataService: CorrelationDataService) {
+  constructor(private dataService: CorrelationDataService,
+              private uiservice: UiService) {
     this.selectedClass = false;
   }
 
