@@ -84,7 +84,7 @@ export class BubblechartComponent implements OnInit {
     colorValues = [...new Set(colorValues)];
     this.myColor = d3.scaleOrdinal()
                      .domain(colorValues)
-                     .range(d3.schemeSet2);
+                     .range(d3.schemeSet3);
   }
 
   private createTooltip(): void {
