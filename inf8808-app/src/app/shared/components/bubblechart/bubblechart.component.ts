@@ -113,18 +113,19 @@ export class BubblechartComponent implements OnInit {
   }
 
   private addLegend(): void {
-    let colorDomain: any = [...new Set(this.config.dataset.map(row => row.Genre))];
-    console.log(colorDomain)
+    let widthLegend: number = Math.floor(window.innerWidth/1.5)
 
-    let svg = d3.select("#Legend").attr('width', 882)
-                  .style("fill", "white");
+    let svg = d3.select("#Legend")
+                .attr('width', widthLegend)
+                .style("fill", "white");
+
     let legend = legendColor()
                   .orient('horizontal')
-                  .shapeWidth(70)
+                  .shapeWidth(Math.floor(widthLegend/12))
                   .shapeHeight(10)
                   .scale(this.myColor)
 
-    svg.append('g').attr("transform", "translate(10,67)").call(legend);
+    svg.append('g').attr("transform", "translate(0,0)").call(legend);
   }
 
   private transition() {

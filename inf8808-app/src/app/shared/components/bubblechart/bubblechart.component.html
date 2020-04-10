@@ -1,15 +1,16 @@
-<mat-toolbar >
-        <span>Genres</span>
-        <svg id="Legend"></svg>
-        <div fxFlex fxLayout="row" fxLayoutAlign="center" id="Selection">
-            <mat-form-field >
-                <mat-label>Radius By Sales Of</mat-label>
-                <mat-select (selectionChange)="onRegionSelection($event.value)">
-                    <mat-option *ngFor="let region of regions" [value]="region.value">
-                        {{region.viewValue}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-</mat-toolbar>
+<mat-card id="container">
+    <mat-card-title id="title">Genres</mat-card-title>
+    <svg id="Legend"></svg>
+    <div id="Selection">
+        <mat-form-field >
+            <mat-label>Radius By Sales Of</mat-label>
+            <mat-select (selectionChange)="onRegionSelection($event.value)">
+                <mat-option *ngFor="let region of regions" [value]="region.value">
+                    {{region.viewValue}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</mat-card>
+
 <div id="bubble-chart"></div>

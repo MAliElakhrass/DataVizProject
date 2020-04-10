@@ -12,7 +12,6 @@
         </mat-option>
     </mat-select>
   </mat-form-field>
-
 </div>
 <mat-card id="graph">
   <app-barchart class="barchart" *ngIf="bcConfig" [config]="bcConfig" [events]="eventsSubject.asObservable()"></app-barchart>

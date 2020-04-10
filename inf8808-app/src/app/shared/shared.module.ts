@@ -9,7 +9,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { BarchartComponent } from './components/barchart/barchart.component';
@@ -37,7 +38,8 @@ import { BubblechartComponent } from './components/bubblechart/bubblechart.compo
     MatMenuModule,
     MatListModule,
     RouterModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCardModule
   ],
   exports: [
     HeaderComponent,
