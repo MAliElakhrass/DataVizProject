@@ -3,7 +3,7 @@
         <svg id="Legend"></svg>
         <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" id="Selection">
             <mat-form-field >
-                <mat-label>Radius By</mat-label>
+                <mat-label>Radius By Sales Of</mat-label>
                 <mat-select (selectionChange)="onRegionSelection($event.value)">
                     <mat-option *ngFor="let region of regions" [value]="region.value">
                         {{region.viewValue}}
