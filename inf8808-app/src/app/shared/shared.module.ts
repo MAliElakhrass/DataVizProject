@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
@@ -20,13 +17,10 @@ import { BubblechartComponent } from './components/bubblechart/bubblechart.compo
 
 @NgModule({
   declarations: [
-    HeaderComponent,
-    FooterComponent,
-    SidebarComponent,
     BarchartComponent,
+    BubblechartComponent,
     HeatmapComponent,
-    ScatterplotComponent,
-    BubblechartComponent
+    ScatterplotComponent
   ],
   imports: [
     CommonModule,
@@ -42,13 +36,10 @@ import { BubblechartComponent } from './components/bubblechart/bubblechart.compo
     MatCardModule
   ],
   exports: [
-    HeaderComponent,
-    FooterComponent,
-    SidebarComponent,
     BarchartComponent,
+    BubblechartComponent,
     HeatmapComponent,
-    ScatterplotComponent,
-    BubblechartComponent
+    ScatterplotComponent
   ]
 })
 export class SharedModule { }

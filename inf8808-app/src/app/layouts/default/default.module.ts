@@ -16,6 +16,10 @@ import { CorrelationDataService } from 'src/app/services/correlation-data.servic
 import { ClusteranalysisComponent } from 'src/app/modules/clusteranalysis/clusteranalysis.component';
 import { ClusteringDataService } from 'src/app/services/clustering-data.service';
 import { MatSelectModule } from '@angular/material/select';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -29,6 +33,10 @@ import { MatSelectModule } from '@angular/material/select';
     CommonModule,
     RouterModule,
     SharedModule,
+    MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatListModule,
     MatSidenavModule,
     MatDividerModule,
     MatCardModule,

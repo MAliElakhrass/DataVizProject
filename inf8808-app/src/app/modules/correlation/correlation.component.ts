@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HeatMapConfig, ScatterPlotConfig } from 'src/app/shared/graph-configuration';
 import { CorrelationDataService } from 'src/app/services/correlation-data.service';
 import { Subject } from 'rxjs';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-correlation',
