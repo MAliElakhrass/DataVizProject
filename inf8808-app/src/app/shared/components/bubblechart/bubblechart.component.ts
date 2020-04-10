@@ -113,7 +113,7 @@ export class BubblechartComponent implements OnInit {
   }
 
   private addLegend(): void {
-    let widthLegend: number = Math.floor(window.innerWidth/2)
+    let widthLegend: number = window.innerWidth - 750
 
     let svg = d3.select("#Legend")
                 .attr('width', widthLegend)

@@ -1,6 +1,6 @@
 #container {
     width:100%;
-    height: 80px;
+    height: 50px;
 }
 
 #title{
@@ -10,11 +10,11 @@
 }
 
 #Legend {
-    padding: 15px;
+    padding: 10px;
     font-size: 14px;
 }
 
 #Selection{
     float:right;
-    margin-right: 50px;
+    margin-right: 10px;
 }
