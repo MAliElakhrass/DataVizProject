@@ -161,6 +161,7 @@ export class BarchartComponent implements OnInit {
     this.g.select('.x.axis')
           .call(this.xAxis)
           .selectAll("text")
+          .style("fill", "black")
           .attr("transform", "rotate(30) ")
           .style("text-anchor", "start");
       

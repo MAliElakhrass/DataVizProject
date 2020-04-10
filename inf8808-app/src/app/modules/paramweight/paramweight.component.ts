@@ -77,7 +77,7 @@ export class ParamweightComponent implements OnInit {
     dataset.then(data => {
       this.bcConfig = {
         width: 1000,
-        height: 750,
+        height: 650,
         marginTop: 55,
         marginBottom: 100,
         marginRight: 75,
