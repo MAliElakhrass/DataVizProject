@@ -45,6 +45,10 @@ export class ParamweightComponent implements OnInit {
     this.configurationBarChart(this.dataService.nonSaleData);
   }
 
+  /**
+   * Function that handle event when the windows is resized
+   *
+   */
   @HostListener('window:resize', ['$event'])
   private async onResize(event) {
     this.innerWidth = window.innerWidth;

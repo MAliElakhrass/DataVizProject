@@ -48,11 +48,17 @@ export class BarchartComponent implements OnInit {
     });
   }
 
+  /**
+   * Configuration of the svg elements
+   */
   private configuration(): void {
     this.width = this.config.width - this.config.marginLeft - this.config.marginRight;
     this.height = this.config.height - this.config.marginTop - this.config.marginBottom;
   }
 
+  /**
+   * Set the scales of x and y
+   */
   private setScales(): void {
     this.x = d3.scaleBand()
                .range([0, this.width]);
@@ -60,6 +66,9 @@ export class BarchartComponent implements OnInit {
                .range([this.height, 0]);
   }
 
+  /**
+   * Set the scales of x and y
+   */
   private createSVGobject(): void {
     
     this.svg = d3.select("#bar-chart-svg")
@@ -71,6 +80,9 @@ export class BarchartComponent implements OnInit {
                      + this.config.marginTop + ')');
   }
 
+  /**
+   * Set the domains of x and y
+   */
   private setDomains(): void {
     let parameters = this.config.dataset.map(row => row.parameter);
     let coefs = this.config.dataset.map(d => d.weight);
@@ -80,6 +92,9 @@ export class BarchartComponent implements OnInit {
     this.y.domain([d3.min(coefs), d3.max(coefs)]);
   }
 
+  /**
+   * Create the x and y axis
+   */
   private createAxis(): void {
     this.xAxis = d3.axisBottom(this.x);
     this.yAxis = d3.axisLeft(this.y).tickFormat(this.formatDecimal);
@@ -116,6 +131,9 @@ export class BarchartComponent implements OnInit {
     this.g.selectAll("path").style("stroke", "black");
   }
 
+  /**
+   * Create the barchart element
+   */
   private createBarChart(): void {
     this.g.call(this.tip);
 
@@ -154,6 +172,9 @@ export class BarchartComponent implements OnInit {
         .on('mouseout', this.tip.hide);
   }
 
+  /**
+   * Update the x axis
+   */
   private updateAxis(): void {
     this.xAxis = d3.axisBottom(this.x);
     this.g.select('.x.axis')
@@ -168,6 +189,9 @@ export class BarchartComponent implements OnInit {
           .style("text-anchor", "middle");
   }
 
+  /**
+   * Update the barchart with the new data
+   */
   private updateBarChart(): void {
     this.svg.attr("width", this.config.width)
 
