@@ -3,6 +3,7 @@ import { ParamWeightDataService } from './../../services/param-weight-data.servi
 import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Subject } from 'rxjs';
+import { UiService } from 'src/app/services/ui.service';
 
 interface Selections {
   value: string,
@@ -17,8 +18,8 @@ interface Selections {
 export class ParamweightComponent implements OnInit {
 
   public eventsSubject: Subject<BarChartConfig> = new Subject<BarChartConfig>();
-
   public bcConfig: BarChartConfig;
+  private sideNavOpen: Boolean;
 
   public selections = [
     {value: 'alpha', viewValue: 'Attribute name'},
@@ -28,8 +29,14 @@ export class ParamweightComponent implements OnInit {
 
   private tabSelection: number;
 
-  constructor(private dataService: ParamWeightDataService) {
+  constructor(private dataService: ParamWeightDataService,
+              private uiService: UiService) {
+    this.sideNavOpen = true;
     this.tabSelection = 0;
+    this.uiService.changeEmitted$.subscribe(data => {
+      console.log(window)
+      this.sideNavOpen = data;
+    })
   }
 
   async ngOnInit() {
@@ -75,8 +82,9 @@ export class ParamweightComponent implements OnInit {
    */
   private async configurationBarChart(dataset) {
     dataset.then(data => {
+      console.log(window)
       this.bcConfig = {
-        width: 1000,
+        width: window.innerWidth*0.75,
         height: 650,
         marginTop: 55,
         marginBottom: 100,

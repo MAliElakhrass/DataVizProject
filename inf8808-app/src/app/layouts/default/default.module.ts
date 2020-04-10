@@ -20,6 +20,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { UiService } from 'src/app/services/ui.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { MatButtonModule } from '@angular/material/button';
   providers: [
     ParamWeightDataService,
     CorrelationDataService,
-    ClusteringDataService
+    ClusteringDataService,
+    UiService
   ]
 })
 export class DefaultModule { }
