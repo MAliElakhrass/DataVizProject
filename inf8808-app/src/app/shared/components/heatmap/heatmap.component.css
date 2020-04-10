@@ -34,3 +34,7 @@
 #panel h1 {
   margin-top: 0;
 }
+
+#heatmap-svg{
+  width:700px;
+}

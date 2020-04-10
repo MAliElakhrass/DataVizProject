@@ -1,8 +1,11 @@
 #Legend {
     font-size: 12px;
+    margin-left: 20px;
 }
   
 #Selection {
-    height: 55px;
+    height: 60px;
 }
-  
+span{
+    height:40px;
+}

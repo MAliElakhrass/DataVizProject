@@ -69,3 +69,18 @@ select {
     padding: 5px;
     font-size: 1.4em;
 }
+
+#graph{
+  margin-top: 20px;
+  margin-left: 20px;
+}
+mat-card{
+  vertical-align: top;
+  display:inline-block;
+}
+
+#definition{
+  margin-left: 20px;
+  margin-top: 20px;
+  width:400px;
+}

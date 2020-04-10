@@ -60,9 +60,10 @@ export class BarchartComponent implements OnInit {
   }
 
   private createSVGobject(): void {
+    
     this.g = d3.select("#bar-chart-svg")
                .attr("width", this.config.width)
-               .attr("height", this.config.height)
+               .attr("height", this.config.height-10)
                .append('g')
                .attr('transform',
                      'translate(' + this.config.marginLeft + ','
@@ -87,6 +88,7 @@ export class BarchartComponent implements OnInit {
           .attr("transform", "translate(" + 0 + "," + this.height + ")")
           .call(this.xAxis)
           .selectAll("text")
+          .style("fill", "black")
           .attr("transform", "rotate(30) ")
           .style("text-anchor", "start");
 
@@ -97,7 +99,9 @@ export class BarchartComponent implements OnInit {
 
     this.g.append("g")
           .attr("class", "axis y")
-          .call(this.yAxis);
+          .call(this.yAxis)
+          .selectAll("text")
+          .style("fill", "black");
 
     this.g.append("text")
           .attr("transform", "rotate(-90)")
@@ -106,6 +110,8 @@ export class BarchartComponent implements OnInit {
           .attr("dy", "1em")
           .style("text-anchor", "middle")
           .text("Coefficient");
+    this.g.selectAll("line").style("stroke", "black");
+    this.g.selectAll("path").style("stroke", "black");
   }
 
   private createBarChart(): void {

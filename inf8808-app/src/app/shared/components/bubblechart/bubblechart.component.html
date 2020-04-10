@@ -1,7 +1,7 @@
-<mat-toolbar color="grey">
-        <span>Color Legend</span>
+<mat-toolbar >
+        <span>Genres</span>
         <svg id="Legend"></svg>
-        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" id="Selection">
+        <div fxFlex fxLayout="row" fxLayoutAlign="center" id="Selection">
             <mat-form-field >
                 <mat-label>Radius By</mat-label>
                 <mat-select (selectionChange)="onRegionSelection($event.value)">
@@ -11,7 +11,5 @@
                 </mat-select>
             </mat-form-field>
         </div>
-  </mat-toolbar>
-  
-
+</mat-toolbar>
 <div id="bubble-chart"></div>

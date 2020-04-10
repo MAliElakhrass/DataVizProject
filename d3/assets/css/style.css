@@ -218,3 +218,7 @@ rect:hover {
 #panel h1 {
   margin-top: 0;
 }
+
+#tabSelection {
+  width:50px;
+}

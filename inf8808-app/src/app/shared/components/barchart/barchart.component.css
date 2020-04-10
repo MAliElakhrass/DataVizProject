@@ -1,6 +1,5 @@
 /***** SVG *****/
 :host ::ng-deep svg {
-  margin-top: 25px;
   background-color: white;
 }
 
