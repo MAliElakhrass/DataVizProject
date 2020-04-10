@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import * as d3 from 'd3';
 import { Subject } from 'rxjs';
-
 @Component({
   selector: 'app-paramweight',
   templateUrl: './paramweight.component.html',

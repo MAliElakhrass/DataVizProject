@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CorrelationComponent } from 'src/app/modules/correlation/correlation.component';
 import { CorrelationDataService } from 'src/app/services/correlation-data.service';
@@ -29,6 +30,7 @@ import { ClusteringDataService } from 'src/app/services/clustering-data.service'
     SharedModule,
     MatSidenavModule,
     MatDividerModule,
+    MatCardModule,
     MatTabsModule,
     HttpClientModule
   ],

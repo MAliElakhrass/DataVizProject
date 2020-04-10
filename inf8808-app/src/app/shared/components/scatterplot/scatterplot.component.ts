@@ -75,22 +75,27 @@ export class ScatterplotComponent implements OnInit {
   }
 
   private createAxis(): void {
-    let xAxis = d3.axisBottom(this.x).tickFormat(d3.format(".2f"));;
+    let xAxis = d3.axisBottom(this.x).tickFormat(d3.format(".2f"));
+    
     this.g.append("g")
           .attr("class", "axis x")
           .attr("transform", "translate(0," + this.height + ")")
-          .call(xAxis);
+          .call(xAxis)
+          .selectAll("text")
+          .style("fill", "black");
 
     this.g.append("text")
           .classed("xTitle", true)
-          .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height + this.config.marginBottom) + ")")
+          .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height  + this.config.marginBottom) + ")")
           .style("text-anchor", "middle")
           .text(this.config.axisXTitle);
 
     let yAxis = d3.axisLeft(this.y);     
     this.g.append("g")
           .attr("class", "axis y")
-          .call(yAxis);
+          .call(yAxis)
+          .selectAll("text")
+          .style("fill", "black");
 
     this.g.append("text")
           .classed("yTitle", true)
@@ -100,6 +105,9 @@ export class ScatterplotComponent implements OnInit {
           .attr("dy", "1em")
           .style("text-anchor", "middle")
           .text(this.config.axisYTitle);
+    
+    this.g.selectAll("line").style("stroke", "black");
+    this.g.selectAll("path").style("stroke", "black");
   }
 
   private createScatterPlot(): void {

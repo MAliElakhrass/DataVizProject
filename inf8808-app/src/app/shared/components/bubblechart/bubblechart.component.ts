@@ -116,11 +116,13 @@ export class BubblechartComponent implements OnInit {
     let colorDomain: any = [...new Set(this.config.dataset.map(row => row.Genre))];
     console.log(colorDomain)
 
-    let svg = d3.select("#Legend").attr('width', 882);
+    let svg = d3.select("#Legend").attr('width', 882)
+                  .style("fill", "white");
     let legend = legendColor()
                   .orient('horizontal')
                   .shapeWidth(70)
-                  .scale(this.myColor);
+                  .shapeHeight(10)
+                  .scale(this.myColor)
 
     svg.append('g').attr("transform", "translate(10,67)").call(legend);
   }
