@@ -79,9 +79,9 @@ export class ParamweightComponent implements OnInit {
         width: 1000,
         height: 750,
         marginTop: 55,
-        marginBottom: 150,
+        marginBottom: 100,
         marginRight: 75,
-        marginLeft: 75,
+        marginLeft: 85,
         title: this.tabSelection == 0 ? 'Non Sales Parameters Weight Coefficient' : 'Sales Parameters Weight Coefficient',
         dataset: data
       };
