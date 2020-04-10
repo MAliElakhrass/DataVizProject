@@ -19,7 +19,6 @@ export class ParamweightComponent implements OnInit {
 
   public eventsSubject: Subject<BarChartConfig> = new Subject<BarChartConfig>();
   public bcConfig: BarChartConfig;
-  private sideNavOpen: Boolean;
   private innerWidth: number;
 
   public selections: Selections[] = [
@@ -32,21 +31,27 @@ export class ParamweightComponent implements OnInit {
 
   constructor(private dataService: ParamWeightDataService,
               private uiService: UiService) {
-    this.sideNavOpen = true;
     this.tabSelection = 0;
     this.innerWidth = window.innerWidth;
-    this.uiService.changeEmitted$.subscribe(data => {
-      this.sideNavOpen = data;
+
+    this.uiService.changeEmitted$.subscribe(async data => {
+      data ? this.innerWidth -= 300 : this.innerWidth +=300;
+      console.log(this.innerWidth)
+      await this.updateBarChart();
     })
   }
 
   async ngOnInit() {
     this.configurationBarChart(this.dataService.nonSaleData);
+
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  private async onResize(event) {
     this.innerWidth = window.innerWidth;
+    console.log(this.innerWidth)
+    // console.log('dans la fonction on resize ' + this.innerWidth);
+    await this.updateBarChart();
   }
 
   /**
@@ -54,15 +59,9 @@ export class ParamweightComponent implements OnInit {
    *
    */
   public async selectTab(tab: MatTabChangeEvent) {
-    if (tab.index == 0) {
-      this.tabSelection = 0;
-      await this.configurationBarChart(this.dataService.nonSaleData);
-    } else if (tab.index == 1) {
-      this.tabSelection = 1;
-      await this.configurationBarChart(this.dataService.saleData);
-    }
+    this.tabSelection = tab.index;
 
-    this.eventsSubject.next(this.bcConfig);
+    await this.updateBarChart();
   }
 
   /**
@@ -73,6 +72,10 @@ export class ParamweightComponent implements OnInit {
   public async configureSelection(value): Promise<void> {
     await this.dataService.sortData(value);
 
+    await this.updateBarChart();
+  }
+
+  private async updateBarChart(): Promise<void> {
     if (this.tabSelection == 0) {
       await this.configurationBarChart(this.dataService.nonSaleData);
     } else if (this.tabSelection == 1) {
@@ -88,9 +91,10 @@ export class ParamweightComponent implements OnInit {
    */
   private async configurationBarChart(dataset) {
     dataset.then(data => {
-      console.log(window)
+      let yed = this.innerWidth * 0.55;
+      console.log('dans la fonction configurationBarChart ' + yed);
       this.bcConfig = {
-        width: this.innerWidth*0.75,
+        width: yed,
         height: 650,
         marginTop: 55,
         marginBottom: 100,

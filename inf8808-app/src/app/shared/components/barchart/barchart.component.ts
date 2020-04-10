@@ -23,6 +23,7 @@ export class BarchartComponent implements OnInit {
   private x;
   private y;
   private g;
+  private svg;
   private xAxis;
   private yAxis;
   private tip;
@@ -61,10 +62,10 @@ export class BarchartComponent implements OnInit {
 
   private createSVGobject(): void {
     
-    this.g = d3.select("#bar-chart-svg")
+    this.svg = d3.select("#bar-chart-svg")
                .attr("width", this.config.width)
-               .attr("height", this.config.height-10)
-               .append('g')
+               .attr("height", this.config.height-10);
+    this.g = this.svg.append('g')
                .attr('transform',
                      'translate(' + this.config.marginLeft + ','
                      + this.config.marginTop + ')');
@@ -93,6 +94,7 @@ export class BarchartComponent implements OnInit {
           .style("text-anchor", "start");
 
     this.g.append("text")
+          .classed("xtitle", true)
           .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height + 75) + ")")
           .style("text-anchor", "middle")
           .text("Parameters");
@@ -152,12 +154,8 @@ export class BarchartComponent implements OnInit {
         .on('mouseout', this.tip.hide);
   }
 
-  private updateBarChart(): void {
-    this.setDomains();
-
-    this.g.selectAll("text.title") 
-          .text(this.config.title);
-
+  private updateAxis(): void {
+    this.xAxis = d3.axisBottom(this.x);
     this.g.select('.x.axis')
           .call(this.xAxis)
           .selectAll("text")
@@ -165,9 +163,23 @@ export class BarchartComponent implements OnInit {
           .attr("transform", "rotate(30) ")
           .style("text-anchor", "start");
       
-    this.g.append("text")
+    this.g.selectAll("text.xtitle")
           .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height + 75) + ")")
           .style("text-anchor", "middle");
+  }
+
+  private updateBarChart(): void {
+    this.svg.attr("width", this.config.width)
+
+    this.configuration();
+    this.setScales();
+    this.setDomains();
+
+    this.g.selectAll("text.title")
+          .attr("x", (this.width / 2))
+          .text(this.config.title);
+    
+    this.updateAxis();
       
     var bars = this.g.selectAll("rect")
                      .remove()
