@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { HeatMapConfig } from '../../graph-configuration';
 import * as d3 from 'd3';
 import d3Tip from "d3-tip";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-heatmap',
@@ -11,10 +12,12 @@ import d3Tip from "d3-tip";
 export class HeatmapComponent implements OnInit {
 
   @Input() config: HeatMapConfig;
-  @Output() displayPanel = new EventEmitter
+  @Input() events: Observable<HeatMapConfig>;
+  @Output() displayPanel = new EventEmitter;
 
   private formatDecimal = d3.format(".4f");
 
+  private svg;
   private g;
   private legendSVG;
   private x;
@@ -49,6 +52,14 @@ export class HeatmapComponent implements OnInit {
     this.createAxis();
     this.createHeatmap();
     this.addLegend();
+
+    this.events.subscribe((data) => {
+      this.config = data;
+
+      this.configuration();
+      this.setScales();
+      this.updateHeatMap();
+    });
   }
 
   private configuration(): void {
@@ -73,17 +84,18 @@ export class HeatmapComponent implements OnInit {
   }
 
   private createSVGobject(): void {
-    this.g = d3.select('#heatmap-svg')
+    this.svg = d3.select('#heatmap-svg')
                .append("svg")
                .attr("width", this.width + this.config.marginLeft + this.config.marginRight)
-               .attr("height", this.height + this.config.marginTop + this.config.marginBottom)
-               .append("g")
-               .attr("transform", "translate(" + this.config.marginLeft + "," + this.config.marginTop + ")");
+               .attr("height", this.height + this.config.marginTop + this.config.marginBottom);
+    this.g = this.svg.append("g")
+                     .attr("transform", "translate(" + this.config.marginLeft + "," + this.config.marginTop + ")");
   }
 
   private createAxis(): void {
     let xAxis = d3.axisBottom(this.x);
     this.g.append("g")
+          .attr("class", "axis x")
           .attr("transform", "translate(0," + this.height + ")")
           .call(xAxis)
           .selectAll("text")
@@ -92,6 +104,7 @@ export class HeatmapComponent implements OnInit {
 
     let yAxis = d3.axisLeft(this.y);
     this.g.append('g')
+          .attr("class", "axis y")
           .call(yAxis);
   }
 
@@ -175,6 +188,39 @@ export class HeatmapComponent implements OnInit {
                   .attr("width", this.innerWidth)
                   .attr("height", this.barHeight)
                   .style("fill", "url(#myGradient)");
+  }
+
+  private updateAxis(): void {
+    let xAxis = d3.axisBottom(this.x);
+    this.g.select('.x.axis')
+          .attr("transform", "translate(0," + this.height + ")")
+          .call(xAxis);
+
+    let yAxis = d3.axisLeft(this.y);
+    this.g.select('.y.axis')
+          .call(yAxis);
+  }
+
+  private updateHeatMap(): void {
+    this.svg.attr("width", this.config.width)
+            .attr("height", this.config.height);
+    
+    this.updateAxis();
+
+    var bars = this.g.selectAll("rect")
+                     .remove()
+                     .exit()
+                     .data(this.config.dataset)
+                     .enter()
+                     .append("rect")
+                     .style("fill", d => this.colors(d.value))
+                     .attr("x", d =>  this.x(d.x))
+                     .attr("width", this.x.bandwidth())
+                     .attr("y",  d => this.y(d.y))
+                     .attr("height", this.y.bandwidth())
+                     .on("click", d => {
+                      this.displayPanel.emit(d);
+                    });;
   }
 
 }

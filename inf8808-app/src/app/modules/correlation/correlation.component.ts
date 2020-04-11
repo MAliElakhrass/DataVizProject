@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { HeatMapConfig, ScatterPlotConfig } from 'src/app/shared/graph-configuration';
 import { CorrelationDataService } from 'src/app/services/correlation-data.service';
 import { Subject } from 'rxjs';
-import { MatSidenav } from '@angular/material/sidenav';
 import { UiService } from 'src/app/services/ui.service';
 
 @Component({
@@ -10,50 +9,51 @@ import { UiService } from 'src/app/services/ui.service';
   templateUrl: './correlation.component.html',
   styleUrls: ['./correlation.component.css']
 })
-export class CorrelationComponent implements OnInit {
+export class CorrelationComponent implements AfterViewInit {
 
   public eventsSubject: Subject<ScatterPlotConfig> = new Subject<ScatterPlotConfig>();
+  public hmEventsSubject: Subject<HeatMapConfig> = new Subject<HeatMapConfig>();
 
   public hmConfig: HeatMapConfig;
   public spConfig: ScatterPlotConfig;
-  public selectedClass;
+  private innerWidth: number;
 
   constructor(private dataService: CorrelationDataService,
-              private uiservice: UiService) {
-    this.selectedClass = false;
+              private uiService: UiService) {
+    this.innerWidth = window.innerWidth - 300;
   }
 
-  ngOnInit(): void {
-    this.configurationBarChart();
+  async ngAfterViewInit(): Promise<void> {
+    this.configurationHeatmap();
+
+    this.configurationScatterPlot('Critic_Count', 'Year_of_Release');
+
+    this.uiService.changeEmitted$.subscribe(async data => {
+      data ? this.innerWidth = window.innerWidth - 300 : this.innerWidth = window.innerWidth;
+      await this.configurationHeatmap();
+
+      this.hmEventsSubject.next(this.hmConfig);
+    })
   }
 
-  public async showPanel(data): Promise<void> {
+  public async showScatterPlot(data): Promise<void> {
     await this.configurationScatterPlot(data.x, data.y);
 
-    if (this.selectedClass == true) {
-      this.eventsSubject.next(this.spConfig);
-    }
-
-    this.selectedClass = true;
-  }
-
-  public closePanel(): void {
-    this.selectedClass = false;
-    this.spConfig = null;
+    this.eventsSubject.next(this.spConfig);
   }
 
   /**
    * Configure all the heatmap parameters
    *
    */
-  private configurationBarChart(): void {
+  private configurationHeatmap(): void {
     this.dataService.correlationData.then(data => {
       this.hmConfig = {
-        width: 750,
-        height: 700,
+        width: this.innerWidth*0.45,
+        height: this.innerWidth*0.45-65,
         marginTop: 35,
         marginBottom: 85,
-        marginRight: 85,
+        marginRight: 100,
         marginLeft: 85,
         dataset: data
       };

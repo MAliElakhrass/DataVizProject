@@ -225,7 +225,7 @@ export class BarchartComponent implements OnInit {
         .attr("y",  d => { return this.y(d.weight); })
         .attr("height",  d => { return this.height - this.y(d.weight); });
   
-      bars.on('mouseover', this.tip.show)
-          .on('mouseout', this.tip.hide);
+    bars.on('mouseover', this.tip.show)
+        .on('mouseout', this.tip.hide);
   }
 }

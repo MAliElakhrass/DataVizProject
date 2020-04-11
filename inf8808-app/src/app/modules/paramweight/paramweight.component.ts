@@ -38,7 +38,7 @@ export class ParamweightComponent implements OnInit {
       data ? this.innerWidth -= 300 : this.innerWidth +=300;
       console.log(this.innerWidth)
       await this.updateBarChart();
-    })
+    });
   }
 
   async ngOnInit() {
