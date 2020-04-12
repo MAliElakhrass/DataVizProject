@@ -20,6 +20,7 @@ export class BubblechartComponent implements OnInit {
   @Input() config: ClusteringConfig;
   @Input() events: Observable<ClusteringConfig>;
 
+  private svg;
   private g;
   private x;
   private y;
@@ -51,9 +52,10 @@ export class BubblechartComponent implements OnInit {
     this.addLegend();
 
     this.events.subscribe((data) => {
-      console.log('yed')
       this.config = data;
       this.configuration();
+      this.updateScale();
+      this.updateBubbleChart();
     });
   }
 
@@ -63,15 +65,16 @@ export class BubblechartComponent implements OnInit {
   }
 
   private createSVGobject(): void {
-    this.g = d3.select("#bubble-chart")
-               .append("svg")
-               .attr("width", this.config.width)
-               .attr("height", this.config.height)
-               .call(d3.zoom().on("zoom", d => {
-                 this.g.attr("transform", d3.event.transform)
-               }))
-               .append("g")
-               .attr("transform", "translate(" + this.config.marginLeft + "," + this.config.marginTop + ")");
+    this.svg = d3.select("#bubble-chart")
+                  .append("svg")
+                  .attr("width", this.config.width)
+                  .attr("height", this.config.height)
+                  .call(d3.zoom().on("zoom", d => {
+                    this.g.attr("transform", d3.event.transform)
+                  }));
+
+    this.g = this.svg.append("g")
+                     .attr("transform", "translate(" + this.config.marginLeft + "," + this.config.marginTop + ")");
   }
 
   private setScaleDomain(): void {
@@ -144,13 +147,27 @@ export class BubblechartComponent implements OnInit {
           .data(this.config.dataset)
           .transition()
           .duration(1000)
+          .attr('cx', d => this.x(d.x))
+          .attr('cy', d => this.y(d.y))
           .attr("r", d => this.r(d[this.selectedValue]));
   }
 
   public onRegionSelection(value): void {
     this.selectedValue = value;
     this.transition();
-  }  
+  }
+
+  private updateScale(): void {
+    this.x.range([0, this.width]);
+    this.y.range([this.height, 0]);
+  }
+
+  private updateBubbleChart(): void {
+    this.svg.attr("width", this.config.width)
+            .attr("height", this.config.height);
+
+    this.transition();
+  }
 }
 
 
