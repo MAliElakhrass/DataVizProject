@@ -32,11 +32,10 @@ export class ParamweightComponent implements OnInit {
   constructor(private dataService: ParamWeightDataService,
               private uiService: UiService) {
     this.tabSelection = 0;
-    this.innerWidth = window.innerWidth;
+    this.innerWidth = window.innerWidth - 300;
 
     this.uiService.changeEmitted$.subscribe(async data => {
-      data ? this.innerWidth -= 300 : this.innerWidth +=300;
-      console.log(this.innerWidth)
+      data ? window.innerWidth - 300 : window.innerWidth + 300;
       await this.updateBarChart();
     });
   }
@@ -52,8 +51,6 @@ export class ParamweightComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   private async onResize(event) {
     this.innerWidth = window.innerWidth;
-    console.log(this.innerWidth)
-    // console.log('dans la fonction on resize ' + this.innerWidth);
     await this.updateBarChart();
   }
 

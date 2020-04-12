@@ -39,7 +39,7 @@ export class CorrelationComponent implements AfterViewInit {
 
       this.hmEventsSubject.next(this.hmConfig);
       this.eventsSubject.next(this.spConfig);
-    })
+    });
   }
 
   public async showScatterPlot(data): Promise<void> {
@@ -80,7 +80,7 @@ export class CorrelationComponent implements AfterViewInit {
         axisYTitle: this.ySP,
         axisXTitle: this.xSP,
         width: this.innerWidth*0.48,
-        height: 460,
+        height: (this.innerWidth*0.45) / 1.5,
         marginTop: 35,
         marginBottom: 30,
         marginRight: 30,

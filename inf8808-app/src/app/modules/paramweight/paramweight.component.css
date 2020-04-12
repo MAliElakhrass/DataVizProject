@@ -14,50 +14,6 @@
     flex-basis: 150px;
 }
 
-/***** Tabs *****/
-.tabs {
-  width: 100%;
-  border: 1px solid #666;
-}
-
-.tabs > .header {
-  height: 30px;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  text-align: center;
-  line-height: 30px;
-  border-bottom: 1px solid #666;
-}
-
-.tabs > .header > li {
-  background-color: #e6e7e8;
-  cursor: pointer;
-}
-
-.tabs > .header > li:not(:last-child) {
-  border-right: 1px solid #666;
-}
-
-.tabs > .header > li.active {
-  color: #fff;
-  background-color: #4c7d95;
-}
-
-.tabs > .content > .tab {
-  display: none;
-  width: 100%;
-  padding: 20px 10px 10px 10px;
-  box-sizing: border-box;
-}
-
-.tabs > .content {
-  text-align: center;
-}
-
-.tabs > .content > .tab.visible {
-  display: block;
-}
 
 /***** Selec *****/
 #tabSelection {
@@ -65,15 +21,10 @@
 }
 
 .label {
-    margin-top: 25px;
-    margin-left: 20px;
-    padding: 5px;
-    font-size: 1.4em;
-}
-
-#graph{
-  margin-top: 20px;
+  margin-top: 25px;
   margin-left: 20px;
+  padding: 5px;
+  font-size: 1.4em;
 }
 
 mat-card{
@@ -81,9 +32,13 @@ mat-card{
   display:inline-block;
 }
 
+#graph{
+  margin-top: 20px;
+  margin-left: 20px;
+  float: left;
+}
+
 #definition{
   text-align: justify;
   margin-left: 20px;
-  margin-top: 20px;
-  width:25%;
 }

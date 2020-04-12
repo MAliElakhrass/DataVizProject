@@ -3,6 +3,7 @@ import { ClusteringConfig } from '../../graph-configuration';
 import * as d3 from 'd3';
 import { legendColor } from 'd3-svg-legend'
 import d3Tip from "d3-tip";
+import { Observable } from 'rxjs';
 
 interface Selections {
   value: string;
@@ -17,6 +18,7 @@ interface Selections {
 export class BubblechartComponent implements OnInit {
 
   @Input() config: ClusteringConfig;
+  @Input() events: Observable<ClusteringConfig>;
 
   private g;
   private x;
@@ -47,6 +49,12 @@ export class BubblechartComponent implements OnInit {
     this.createTooltip();
     this.createBubbleChart();
     this.addLegend();
+
+    this.events.subscribe((data) => {
+      console.log('yed')
+      this.config = data;
+      this.configuration();
+    });
   }
 
   private configuration(): void {
@@ -55,7 +63,6 @@ export class BubblechartComponent implements OnInit {
   }
 
   private createSVGobject(): void {
-
     this.g = d3.select("#bubble-chart")
                .append("svg")
                .attr("width", this.config.width)
@@ -143,7 +150,7 @@ export class BubblechartComponent implements OnInit {
   public onRegionSelection(value): void {
     this.selectedValue = value;
     this.transition();
-  }
+  }  
 }
 
 

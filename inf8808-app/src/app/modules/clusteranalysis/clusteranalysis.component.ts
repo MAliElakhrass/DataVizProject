@@ -1,6 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ClusteringDataService, ClusteringData } from 'src/app/services/clustering-data.service';
 import { ClusteringConfig } from 'src/app/shared/graph-configuration';
+import { UiService } from 'src/app/services/ui.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-clusteranalysis',
@@ -8,11 +10,22 @@ import { ClusteringConfig } from 'src/app/shared/graph-configuration';
   styleUrls: ['./clusteranalysis.component.css']
 })
 export class ClusteranalysisComponent implements OnInit {
-
+  public eventsSubject: Subject<ClusteringConfig> = new Subject<ClusteringConfig>();
   public cConfig: ClusteringConfig;
   private dataset: ClusteringData[] = [];
+  private openSideNav: number;
 
-  constructor(private dataService: ClusteringDataService) { }
+  constructor(private dataService: ClusteringDataService,
+              private uiService: UiService) {
+    this.openSideNav = 350;
+
+    this.uiService.changeEmitted$.subscribe(data => {
+      data ? this.openSideNav = 300 : this.openSideNav = 50;
+
+      this.configurateClustering();
+      this.eventsSubject.next(this.cConfig);
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     await this.mergeDataset();
@@ -50,7 +63,7 @@ export class ClusteranalysisComponent implements OnInit {
 
   private configurateClustering(): void {
     this.cConfig = {
-      width: window.innerWidth - 400,
+      width: window.innerWidth - this.openSideNav,
       height: window.innerHeight - 100,
       marginTop: 10,
       marginBottom: 10,
