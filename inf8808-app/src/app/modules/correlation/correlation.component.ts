@@ -55,8 +55,8 @@ export class CorrelationComponent implements AfterViewInit {
   private configurationHeatmap(): void {
     this.dataService.correlationData.then(data => {
       this.hmConfig = {
-        width: this.innerWidth*0.45,
-        height: this.innerWidth*0.45-65,
+        width: this.innerWidth*0.5,
+        height: this.innerWidth*0.5-65,
         marginTop: 35,
         marginBottom: 85,
         marginRight: 100,
@@ -79,8 +79,8 @@ export class CorrelationComponent implements AfterViewInit {
         title: 'Correlation between ' + this.xSP + " and " + this.ySP,
         axisYTitle: this.ySP,
         axisXTitle: this.xSP,
-        width: this.innerWidth*0.48,
-        height: (this.innerWidth*0.45) / 1.5,
+        width: this.innerWidth*0.4,
+        height: (this.innerWidth*0.5) / 1.65,
         marginTop: 35,
         marginBottom: 30,
         marginRight: 30,
