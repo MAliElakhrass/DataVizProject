@@ -111,7 +111,7 @@ export class HeatmapComponent implements OnInit {
   private createLegendObject(): void {
     this.legendSVG = d3.select("#legend-svg")
                        .append("svg")
-                       .attr("width", this.width + this.config.marginLeft)
+                       .attr("width", this.width + this.config.marginLeft + this.config.marginRight)
                        .attr("height", this.legendHeight)
                        .append("g")
                        .attr("transform", "translate(" + (this.config.marginLeft + this.legendPadding) + ", 0)");
@@ -124,7 +124,7 @@ export class HeatmapComponent implements OnInit {
     });
     this.g.call(this.tip);
 
-    var map = this.g.selectAll()
+    let map = this.g.selectAll()
                     .data(this.config.dataset, d => {return d.x + ':' + d.y;})
                     .enter()
                     .append("rect")
@@ -207,7 +207,7 @@ export class HeatmapComponent implements OnInit {
     
     this.updateAxis();
 
-    var bars = this.g.selectAll("rect")
+    let map = this.g.selectAll("rect")
                      .remove()
                      .exit()
                      .data(this.config.dataset)
@@ -221,6 +221,9 @@ export class HeatmapComponent implements OnInit {
                      .on("click", d => {
                       this.displayPanel.emit(d);
                     });;
+
+    map.on('mouseover', this.tip.show)
+       .on('mouseout', this.tip.hide);
   }
 
 }
