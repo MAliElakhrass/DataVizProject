@@ -225,5 +225,4 @@ export class HeatmapComponent implements OnInit {
     map.on('mouseover', this.tip.show)
        .on('mouseout', this.tip.hide);
   }
-
 }
