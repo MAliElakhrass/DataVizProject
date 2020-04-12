@@ -97,7 +97,7 @@ export class BarchartComponent implements OnInit {
    */
   private createAxis(): void {
     this.xAxis = d3.axisBottom(this.x);
-    this.yAxis = d3.axisLeft(this.y).tickFormat(this.formatDecimal);
+    this.yAxis = d3.axisLeft(this.y);
 
     this.g.append("g")
           .attr("class", "axis x")
@@ -183,6 +183,19 @@ export class BarchartComponent implements OnInit {
           .style("fill", "black")
           .attr("transform", "rotate(30) ")
           .style("text-anchor", "start");
+      
+    this.g.selectAll("text.xtitle")
+          .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height + 75) + ")")
+          .style("text-anchor", "middle");
+
+
+    this.yAxis = d3.axisLeft(this.y);
+    this.g.select('.y.axis')
+          .call(this.yAxis)
+          .selectAll("text")
+          .style("fill", "black")
+          .selectAll("text")
+          .style("fill", "black");
       
     this.g.selectAll("text.xtitle")
           .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height + 75) + ")")
