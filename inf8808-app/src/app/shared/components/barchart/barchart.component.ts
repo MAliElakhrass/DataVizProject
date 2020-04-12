@@ -104,9 +104,9 @@ export class BarchartComponent implements OnInit {
           .attr("transform", "translate(" + 0 + "," + this.height + ")")
           .call(this.xAxis)
           .selectAll("text")
-          .style("fill", "black")
           .attr("transform", "rotate(30) ")
-          .style("text-anchor", "start");
+          .style("text-anchor", "start")
+          .style("fill", "black");
 
     this.g.append("text")
           .classed("xtitle", true)
@@ -127,6 +127,7 @@ export class BarchartComponent implements OnInit {
           .attr("dy", "1em")
           .style("text-anchor", "middle")
           .text("Coefficient");
+
     this.g.selectAll("line").style("stroke", "black");
     this.g.selectAll("path").style("stroke", "black");
   }
@@ -180,9 +181,9 @@ export class BarchartComponent implements OnInit {
     this.g.select('.x.axis')
           .call(this.xAxis)
           .selectAll("text")
-          .style("fill", "black")
           .attr("transform", "rotate(30) ")
-          .style("text-anchor", "start");
+          .style("text-anchor", "start")
+          .style("fill", "black");
       
     this.g.selectAll("text.xtitle")
           .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height + 75) + ")")
@@ -193,13 +194,14 @@ export class BarchartComponent implements OnInit {
     this.g.select('.y.axis')
           .call(this.yAxis)
           .selectAll("text")
-          .style("fill", "black")
-          .selectAll("text")
           .style("fill", "black");
       
     this.g.selectAll("text.xtitle")
           .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height + 75) + ")")
           .style("text-anchor", "middle");
+
+    this.g.selectAll("line").style("stroke", "black");
+    this.g.selectAll("path").style("stroke", "black");
   }
 
   /**

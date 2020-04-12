@@ -88,14 +88,15 @@ export class ScatterplotComponent implements OnInit {
           .classed("xTitle", true)
           .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height  + this.config.marginBottom) + ")")
           .style("text-anchor", "middle")
-          .text(this.config.axisXTitle);
+          .text(this.config.axisXTitle)
+          .style("fill", "black");
 
     let yAxis = d3.axisLeft(this.y);     
     this.g.append("g")
           .attr("class", "axis y")
           .call(yAxis)
           .selectAll("text")
-          .style("fill", "black");
+          .style("fill", "black");;
 
     this.g.append("text")
           .classed("yTitle", true)
@@ -104,7 +105,8 @@ export class ScatterplotComponent implements OnInit {
           .attr("x", -(this.height / 2))
           .attr("dy", "1em")
           .style("text-anchor", "middle")
-          .text(this.config.axisYTitle);
+          .text(this.config.axisYTitle)
+          .style("fill", "black");
     
     this.g.selectAll("line").style("stroke", "black");
     this.g.selectAll("path").style("stroke", "black");
@@ -119,7 +121,7 @@ export class ScatterplotComponent implements OnInit {
           .attr("cx", d => this.x(d.x))
           .attr("cy", d => this.y(d.y))
           .attr("r", 1.5)
-          .style("fill", "#69b3a2");
+          .style("fill", "#6699FF");
   }
 
   private addTitle(): void {
@@ -130,7 +132,8 @@ export class ScatterplotComponent implements OnInit {
           .attr("text-anchor", "middle")  
           .style("font-size", "16px") 
           .style("text-decoration", "underline")  
-          .text(this.config.title);
+          .text(this.config.title)
+          .style("fill", "black");
   }
   
   private updateDomain(): void {
@@ -144,15 +147,21 @@ export class ScatterplotComponent implements OnInit {
   private updateAxis() {
     let xAxis = d3.axisBottom(this.x).tickFormat(d3.format(".2f"));;
     this.g.select('.x.axis')
-          .call(xAxis);
+          .call(xAxis)
+          .selectAll("text")
+          .style("fill", "black");
+
     this.g.selectAll("text.xTitle") 
           .text(this.config.axisXTitle);
 
     let yAxis = d3.axisLeft(this.y);
     this.g.select('.y.axis')
-          .call(yAxis);
+          .call(yAxis)
+          .selectAll("text")
+          .style("fill", "black");
+
     this.g.selectAll("text.yTitle") 
-          .text(this.config.axisYTitle);
+          .style(this.config.axisYTitle);
   }
 
   private updateScatterPlot(): void {
@@ -161,5 +170,8 @@ export class ScatterplotComponent implements OnInit {
 
     this.g.selectAll("circle").remove();
     this.createScatterPlot();
+
+    this.g.selectAll("line").style("stroke", "black");
+    this.g.selectAll("path").style("stroke", "black");
   }
 }

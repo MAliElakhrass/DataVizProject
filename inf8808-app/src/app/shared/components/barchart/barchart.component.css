@@ -1,6 +1,6 @@
 /***** SVG *****/
 :host ::ng-deep svg {
-  background-color: white;
+  background-color: silver;
 }
 
 :host ::ng-deep rect {

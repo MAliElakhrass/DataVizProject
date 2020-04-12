@@ -82,9 +82,9 @@ export class CorrelationComponent implements AfterViewInit {
         width: this.innerWidth*0.4,
         height: (this.innerWidth*0.5) / 1.65,
         marginTop: 35,
-        marginBottom: 30,
+        marginBottom: 50,
         marginRight: 30,
-        marginLeft: 60,
+        marginLeft: 70,
         dataset: data
       };
     });
