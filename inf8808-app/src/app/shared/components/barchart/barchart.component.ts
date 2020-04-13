@@ -35,6 +35,9 @@ export class BarchartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let parameters = this.config.dataset.map(row => row.parameter);
+    this.color.domain(parameters);
+
     this.configuration();
     this.setScales();
     this.createSVGobject();
@@ -70,7 +73,6 @@ export class BarchartComponent implements OnInit {
    * Set the scales of x and y
    */
   private createSVGobject(): void {
-    
     this.svg = d3.select("#bar-chart-svg")
                .attr("width", this.config.width)
                .attr("height", this.config.height-10);
@@ -87,7 +89,6 @@ export class BarchartComponent implements OnInit {
     let parameters = this.config.dataset.map(row => row.parameter);
     let coefs = this.config.dataset.map(d => d.weight);
 
-    this.color.domain(parameters);
     this.x.domain(parameters);
     this.y.domain([d3.min(coefs), d3.max(coefs)]);
   }

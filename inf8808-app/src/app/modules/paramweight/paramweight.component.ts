@@ -70,6 +70,7 @@ export class ParamweightComponent implements OnInit {
    *
    */
   public async configureSelection(value): Promise<void> {
+    console.log(value)
     await this.dataService.sortData(value);
 
     await this.updateBarChart();

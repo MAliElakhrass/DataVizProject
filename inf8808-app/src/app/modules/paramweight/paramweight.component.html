@@ -7,7 +7,7 @@
   <div class="label">Sort By:</div>
 
   <mat-form-field>
-    <mat-select (selectionChange)="configureSelection($event.value)" id='tabSelection' [(value)]="selections[0].value" name="sort">
+    <mat-select (selectionChange)="configureSelection($event.value)" id='tabSelection' [value]="selections[0].value" name="sort">
         <mat-option *ngFor="let selection of selections" [value]="selection.value">
             {{selection.viewValue}}
         </mat-option>
