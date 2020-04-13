@@ -70,7 +70,6 @@ export class ParamweightComponent implements OnInit {
    *
    */
   public async configureSelection(value): Promise<void> {
-    console.log(value)
     await this.dataService.sortData(value);
 
     await this.updateBarChart();
@@ -93,7 +92,6 @@ export class ParamweightComponent implements OnInit {
   private async configurationBarChart(dataset) {
     dataset.then(data => {
       let yed = this.innerWidth * 0.55;
-      console.log('dans la fonction configurationBarChart ' + yed);
       this.bcConfig = {
         width: yed,
         height: 650,

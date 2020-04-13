@@ -73,7 +73,6 @@ export class CorrelationComponent implements AfterViewInit {
   private configurationScatterPlot(x: string, y: string): void {
     this.xSP = x;
     this.ySP = y;
-    console.log(this.innerWidth)
     this.dataService.scatterPlotData.then(data => {
       this.spConfig = {
         title: 'Correlation between ' + this.xSP + " and " + this.ySP,
