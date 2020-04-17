@@ -15,6 +15,7 @@ import { HeatmapComponent } from './components/heatmap/heatmap.component';
 import { ScatterplotComponent } from './components/scatterplot/scatterplot.component';
 import { BubblechartComponent } from './components/bubblechart/bubblechart.component';
 import { SearchComponent } from './components/search/search.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { SearchComponent } from './components/search/search.component';
     MatListModule,
     RouterModule,
     MatSelectModule,
-    MatCardModule
+    MatCardModule,
+    MatTooltipModule
   ],
   exports: [
     BarchartComponent,

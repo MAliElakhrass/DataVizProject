@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ClusteringConfig } from '../../graph-configuration';
-import * as d3 from 'd3';
 import { legendColor } from 'd3-svg-legend'
-import d3Tip from "d3-tip";
 import { Observable } from 'rxjs';
+import * as d3 from 'd3';
+import d3Tip from "d3-tip";
 
 interface Selections {
   value: string;
@@ -99,8 +99,8 @@ export class BubblechartComponent implements OnInit {
 
   private createTooltip(): void {
     this.tip = d3Tip().attr('class', 'd3-tip')
-    .offset([-10, 0])
-    .html(d => "Game: " + d.Name)
+                      .offset([-10, 0])
+                      .html(d => "Game: " + d.Name);
   }
 
   private createBubbleChart(): void {
