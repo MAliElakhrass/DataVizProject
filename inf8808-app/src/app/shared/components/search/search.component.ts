@@ -32,7 +32,7 @@ export class SearchComponent implements OnInit {
         this.validateInput();
       } else {
         this.isSearching = false;
-        searchBarInput.classed("error", false); // A FAIRE DANS LE CSS
+        searchBarInput.classed("error", false);
       }
     });
 
@@ -70,7 +70,7 @@ export class SearchComponent implements OnInit {
       this.zoomBubbleChart.emit(index.toString());
     } else {
       this.isSearching = false;
-      searchBarInput.classed("error", true); // A FAIRE DANS LE CSS
+      searchBarInput.classed("error", true);
     }
   }
 

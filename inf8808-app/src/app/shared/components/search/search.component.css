@@ -39,3 +39,7 @@
 #search-bar > button img {
   height: 18px;
 }
+
+.error {
+  color: #914141;
+}
