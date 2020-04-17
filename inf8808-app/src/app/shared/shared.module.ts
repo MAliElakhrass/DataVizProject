@@ -41,7 +41,8 @@ import { SearchComponent } from './components/search/search.component';
     BarchartComponent,
     BubblechartComponent,
     HeatmapComponent,
-    ScatterplotComponent
+    ScatterplotComponent,
+    SearchComponent
   ]
 })
 export class SharedModule { }
