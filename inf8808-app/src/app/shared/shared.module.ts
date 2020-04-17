@@ -14,13 +14,15 @@ import { BarchartComponent } from './components/barchart/barchart.component';
 import { HeatmapComponent } from './components/heatmap/heatmap.component';
 import { ScatterplotComponent } from './components/scatterplot/scatterplot.component';
 import { BubblechartComponent } from './components/bubblechart/bubblechart.component';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
   declarations: [
     BarchartComponent,
     BubblechartComponent,
     HeatmapComponent,
-    ScatterplotComponent
+    ScatterplotComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,

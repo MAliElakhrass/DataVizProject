@@ -161,7 +161,7 @@ export class ScatterplotComponent implements OnInit {
           .style("fill", "black");
 
     this.g.selectAll("text.yTitle") 
-          .style(this.config.axisYTitle);
+          .text(this.config.axisYTitle);
   }
 
   private updateScatterPlot(): void {
