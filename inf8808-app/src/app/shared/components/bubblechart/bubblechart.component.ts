@@ -111,6 +111,11 @@ export class BubblechartComponent implements OnInit {
           .enter()
           .append('circle')
           .attr('class', 'bubbles')
+          .attr('id', function(d){
+            let name = d.Name.replace(/\s/g, '');
+            let platform = d.Platform.replace(/\s/g, '');
+            return 'name' + name + platform;
+          })
           .attr('cx', d => this.x(d.x))
           .attr('cy', d => this.y(d.y))
           .attr('r', d => this.r(d[this.config.radiusParameter]))
@@ -147,6 +152,7 @@ export class BubblechartComponent implements OnInit {
           .data(this.config.dataset)
           .transition()
           .duration(1000)
+          .attr('id', function(d){ return 'name' + d.Name + d.x.toString() + d.y.toString(); })
           .attr('cx', d => this.x(d.x))
           .attr('cy', d => this.y(d.y))
           .attr("r", d => this.r(d[this.selectedValue]));
@@ -168,6 +174,26 @@ export class BubblechartComponent implements OnInit {
 
     this.transition();
   }
+
+  public zoomGame(value: string): void {
+    let index: number = parseInt(value);
+    let x = this.config.dataset[index].x;
+    let y = this.config.dataset[index].y;
+    let name = this.config.dataset[index].Name;
+    let platform = this.config.dataset[index].Platform;
+    name = name.replace(/\s/g, '');
+    platform = platform.replace(/\s/g, '');
+
+    this.g.selectAll('circle').classed('unselected', false);
+    this.g.selectAll('circle').classed('selected', false);
+
+    this.svg.call(d3.zoom().on("zoom", d => {this.g.attr("transform", d3.event.transform) }).transform, 
+    d3.zoomIdentity.scale(20).translate(-this.x(x) + this.width/40, -this.y(y) + this.height/47));
+
+    this.g.selectAll('circle').classed('unselected', true);
+    this.g.select('#name' + name + platform)
+          .classed('unselected', false)
+          .classed('selected', true);
+
+  }
 }
-
-

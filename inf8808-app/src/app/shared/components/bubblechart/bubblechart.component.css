@@ -18,3 +18,14 @@
     float:right;
     margin-right: 10px;
 }
+
+:host ::ng-deep .selected {
+    fill-opacity: 1 !important;
+    stroke: red !important;
+    stroke-width: 0.3 !important;
+}
+
+:host ::ng-deep .unselected {
+    fill-opacity: 0.4 !important;
+    stroke-opacity: 0.1 !important;
+}

@@ -1,3 +1,5 @@
+<app-search *ngIf="config" [config]="config" (zoomBubbleChart)='zoomGame($event)'></app-search>
+
 <mat-card id="container">
     <mat-card-title id="title">Genres</mat-card-title>
     <svg id="Legend"></svg>

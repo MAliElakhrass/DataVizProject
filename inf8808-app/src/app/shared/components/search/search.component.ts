@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import * as d3 from 'd3';
+import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { ClusteringConfig } from '../../graph-configuration';
+import * as d3 from 'd3';
 
 @Component({
   selector: 'app-search',
@@ -9,17 +9,12 @@ import { ClusteringConfig } from '../../graph-configuration';
 })
 export class SearchComponent implements OnInit {
   @Input() config: ClusteringConfig;
+  @Output() zoomBubbleChart = new EventEmitter;
 
-  private self = {
-    search: function() {},
-    reset: function() {}
-  };
   private isSearching: boolean;
 
   constructor() {
     this.isSearching = false;
-    this.self.search = function() {};
-    this.self.reset = function() {};
   }
 
   ngOnInit(): void {
@@ -37,13 +32,12 @@ export class SearchComponent implements OnInit {
         this.validateInput();
       } else {
         this.isSearching = false;
-        this.self.reset();
-        searchBarInput.classed("error", false);
+        searchBarInput.classed("error", false); // A FAIRE DANS LE CSS
       }
     });
 
     d3.select("#search-bar button")
-      .on("click", this.validateInput);
+      .on("click", d => {this.validateInput()});
   }
 
   private validateInput(): void {
@@ -63,18 +57,20 @@ export class SearchComponent implements OnInit {
     let currentValue = normalize(value);
     
     const valueFound = this.config.dataset.find(function(game) {
-      return normalize(game.Name.toLowerCase()) === currentValue;
+      if (normalize(game.Name.toLowerCase()) === currentValue) {
+        return game;
+      } else {
+        return null;
+      }
     });
     
     if (valueFound) {
       this.isSearching = true;
-      console.log('found');
-      // self.search(valueFound.id, valueFound.name);
+      let index = this.config.dataset.indexOf(valueFound);
+      this.zoomBubbleChart.emit(index.toString());
     } else {
-      console.log('not found');
       this.isSearching = false;
-      // this.self.reset();
-      searchBarInput.classed("error", true);
+      searchBarInput.classed("error", true); // A FAIRE DANS LE CSS
     }
   }
 

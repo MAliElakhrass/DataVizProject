@@ -1,10 +1,11 @@
 /***** Search bar *****/
 #search-bar {
+  z-index: 100000;
   position: absolute;
-  top: 125px;
+  top: 110px;
   left: 20px;
   display: flex;
-  width: 400px;
+  width: 300px;
   max-width: 100%;
 }
   
