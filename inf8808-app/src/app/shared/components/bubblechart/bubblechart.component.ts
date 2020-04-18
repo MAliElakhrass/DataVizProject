@@ -112,7 +112,7 @@ export class BubblechartComponent implements OnInit {
           .append('circle')
           .attr('class', 'bubbles')
           .attr('id', function(d){
-            let name = d.Name.replace(/\s/g, '');
+            let name = d.Name.replace(/\s/g, '').replace(':', '').replace("'", '');
             let platform = d.Platform.replace(/\s/g, '');
             return 'name' + name + platform;
           })
@@ -152,7 +152,11 @@ export class BubblechartComponent implements OnInit {
           .data(this.config.dataset)
           .transition()
           .duration(1000)
-          .attr('id', function(d){ return 'name' + d.Name + d.x.toString() + d.y.toString(); })
+          .attr('id', function(d){
+            let name = d.Name.replace(/\s/g, '').replace(':', '').replace("'", '');
+            let platform = d.Platform.replace(/\s/g, '');
+            return 'name' + name + platform;
+          })
           .attr('cx', d => this.x(d.x))
           .attr('cy', d => this.y(d.y))
           .attr("r", d => this.r(d[this.selectedValue]));
@@ -181,7 +185,7 @@ export class BubblechartComponent implements OnInit {
     let y = this.config.dataset[index].y;
     let name = this.config.dataset[index].Name;
     let platform = this.config.dataset[index].Platform;
-    name = name.replace(/\s/g, '');
+    name = name.replace(/\s/g, '').replace(':', '').replace("'", '');
     platform = platform.replace(/\s/g, '');
 
     this.g.selectAll('circle').classed('unselected', false);

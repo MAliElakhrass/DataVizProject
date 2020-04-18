@@ -45,10 +45,12 @@ export class SearchComponent implements OnInit {
         suggest(matches);
       },
       renderItem: function(item, search) {
-        search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        console.log(item)
+
+        search = search.replace(/['-\/\\^$*+?.()|[\]{}]/g, '\\$&');
         var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
-        return "<div class='autocomplete-suggestion' data-val='"
-          + item + "'>" + item.replace(re, "<b>$1</b>") + "</div>";
+        return `<div class='autocomplete-suggestion' data-val="`
+          + item + `">` + item.replace(re, "<b>$1</b>") + "</div>";
       },
       onSelect: function(e, term, item) {
         view.validateInput();
