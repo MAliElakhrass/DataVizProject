@@ -30,6 +30,7 @@ export class SearchComponent implements OnInit {
       return d3.ascending(a, b);
     });
 
+    let view = this;
     let ac = new autoComplete({
       selector: "#search-bar input",
       minChars: 1,
@@ -50,9 +51,9 @@ export class SearchComponent implements OnInit {
           + item + "'>" + item.replace(re, "<b>$1</b>") + "</div>";
       },
       onSelect: function(e, term, item) {
-        this.isSearching = true;
+        view.validateInput();
       }
-    })
+    });
   }
 
   private searchEvent(): void  {
@@ -77,17 +78,23 @@ export class SearchComponent implements OnInit {
     }
 
     function normalize(str) {
-      return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      let index = str.lastIndexOf(" (");
+      let name = str.substring(0, index);
+      let platform = str.substring(index, str.length);
+      platform = platform.substring(1, platform.length-1)
+
+      return [name.normalize('NFD').replace(/[\u0300-\u036f]/g, ''), platform];
     }
 
     let value = (searchBarInput.node() as HTMLInputElement).value.toLowerCase();
     if (!value) {
       return;
     }
-    let currentValue = normalize(value);
+    let [currentValue, currentPlatform] = normalize(value);
     
     const valueFound = this.config.dataset.find(function(game) {
-      if (normalize(game.Name.toLowerCase()) === currentValue) {
+      let val: string = game.Name.toLowerCase() + " (" + game.Platform.toLowerCase() + ")";
+      if (normalize(val)[0] === currentValue && normalize(val)[1] === currentPlatform) {
         return game;
       } else {
         return null;
