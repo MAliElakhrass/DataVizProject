@@ -43,3 +43,7 @@
 .error {
   color: #914141;
 }
+
+.pull-right {
+  float: right;
+}

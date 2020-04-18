@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 import { ClusteringConfig } from '../../graph-configuration';
+import { autoComplete } from './auto-complete.js'
 import * as d3 from 'd3';
 
 @Component({
@@ -18,11 +19,40 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.autoComplete();
+    this.completeSearch();
     this.searchEvent();
   }
 
-  private autoComplete(): void {
+  private completeSearch(): void {
+    let sources = this.config.dataset.map(row => {
+      return row.Name + ' (' + row.Platform + ')' });
+    sources.sort(function (a, b) {
+      return d3.ascending(a, b);
+    });
+
+    let ac = new autoComplete({
+      selector: "#search-bar input",
+      minChars: 1,
+      source: function(term, suggest) {
+        term = term.toLowerCase();
+        var matches = [];
+        sources.forEach(function(d) {
+          if (~d.toLowerCase().indexOf(term)) {
+            matches.push(d);
+          }
+        });
+        suggest(matches);
+      },
+      renderItem: function(item, search) {
+        search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+        return "<div class='autocomplete-suggestion' data-val='"
+          + item + "'>" + item.replace(re, "<b>$1</b>") + "</div>";
+      },
+      onSelect: function(e, term, item) {
+        this.isSearching = true;
+      }
+    })
   }
 
   private searchEvent(): void  {
