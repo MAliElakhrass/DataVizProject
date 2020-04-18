@@ -18,6 +18,9 @@ export class BarchartComponent implements OnInit {
   private height: number;
 
   private formatDecimal = d3.format(".4f");
+  private formatString = function(d) {
+                          return d.replace(/_/g, ' ');
+                         }
   private color = d3.scaleOrdinal(d3.schemeCategory10);
 
   private x;
@@ -97,7 +100,7 @@ export class BarchartComponent implements OnInit {
    * Create the x and y axis
    */
   private createAxis(): void {
-    this.xAxis = d3.axisBottom(this.x);
+    this.xAxis = d3.axisBottom(this.x).tickFormat(this.formatString);
     this.yAxis = d3.axisLeft(this.y);
 
     this.g.append("g")
@@ -178,7 +181,7 @@ export class BarchartComponent implements OnInit {
    * Update the x axis
    */
   private updateAxis(): void {
-    this.xAxis = d3.axisBottom(this.x);
+    this.xAxis = d3.axisBottom(this.x).tickFormat(this.formatString);
     this.g.select('.x.axis')
           .call(this.xAxis)
           .selectAll("text")

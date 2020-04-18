@@ -13,6 +13,8 @@ export class ScatterplotComponent implements OnInit {
   @Input() config: ScatterPlotConfig;
   @Input() events: Observable<ScatterPlotConfig>;
 
+  private formatString = function(d) { return d.replace(/_/g, ' '); }
+  
   private width;
   private height;
 
@@ -88,7 +90,7 @@ export class ScatterplotComponent implements OnInit {
           .classed("xTitle", true)
           .attr("transform", "translate(" + (this.width/2) + " ," +  (this.height  + this.config.marginBottom) + ")")
           .style("text-anchor", "middle")
-          .text(this.config.axisXTitle)
+          .text(this.formatString(this.config.axisXTitle))
           .style("fill", "black");
 
     let yAxis = d3.axisLeft(this.y);     
@@ -105,7 +107,7 @@ export class ScatterplotComponent implements OnInit {
           .attr("x", -(this.height / 2))
           .attr("dy", "1em")
           .style("text-anchor", "middle")
-          .text(this.config.axisYTitle)
+          .text(this.formatString(this.config.axisYTitle))
           .style("fill", "black");
     
     this.g.selectAll("line").style("stroke", "black");
@@ -152,7 +154,7 @@ export class ScatterplotComponent implements OnInit {
           .style("fill", "black");
 
     this.g.selectAll("text.xTitle") 
-          .text(this.config.axisXTitle);
+          .text(this.formatString(this.config.axisXTitle));
 
     let yAxis = d3.axisLeft(this.y);
     this.g.select('.y.axis')
@@ -161,7 +163,7 @@ export class ScatterplotComponent implements OnInit {
           .style("fill", "black");
 
     this.g.selectAll("text.yTitle") 
-          .text(this.config.axisYTitle);
+          .text(this.formatString(this.config.axisYTitle));
   }
 
   private updateScatterPlot(): void {

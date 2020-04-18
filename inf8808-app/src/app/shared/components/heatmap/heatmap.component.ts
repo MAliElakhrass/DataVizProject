@@ -16,6 +16,7 @@ export class HeatmapComponent implements OnInit {
   @Output() displayPanel = new EventEmitter;
 
   private formatDecimal = d3.format(".4f");
+  private formatString = function(d) { return d.replace(/_/g, ' '); }
 
   private svg;
   private g;
@@ -26,7 +27,8 @@ export class HeatmapComponent implements OnInit {
   private colors;
   private tip;
 
-  private attributes: string[];
+  private attributesX: string[];
+  private attributesY: string[];
   private width;
   private height;
   private legendHeight;
@@ -35,9 +37,9 @@ export class HeatmapComponent implements OnInit {
   private innerWidth;
 
   constructor() {
-    this.attributes = ['Critic_Count', 'Critic_Score', 'EU_Sales','JP_Sales', 
-                       'User_Score', 'NA_Sales', 'Other_Sales', 'User_Count',
-                       'Year_of_Release'];
+    this.attributesX = ['Critic_Count', 'Critic_Score', 'EU_Sales','JP_Sales', 
+                       'User_Score', 'NA_Sales', 'Other_Sales', 'User_Count'];
+    this.attributesY = ['Critic_Score', 'EU_Sales','JP_Sales', 'User_Score', 'NA_Sales', 'Other_Sales', 'User_Count', 'Year_of_Release'];
 
     this.legendHeight = 28;
     this.barHeight = 8;
@@ -72,12 +74,12 @@ export class HeatmapComponent implements OnInit {
   private setScales(): void {
     this.x = d3.scaleBand()
                .range([0, this.width])
-               .domain(this.attributes)
+               .domain(this.attributesX)
                .padding(0.01);
 
     this.y = d3.scaleBand()
               .range([this.height, 0 ])
-              .domain(this.attributes)
+              .domain(this.attributesY)
               .padding(0.01);
 
     this.colors = d3.scaleSequential(d3.interpolateRdBu).domain([-1, 1]);
@@ -93,7 +95,7 @@ export class HeatmapComponent implements OnInit {
   }
 
   private createAxis(): void {
-    let xAxis = d3.axisBottom(this.x);
+    let xAxis = d3.axisBottom(this.x).tickFormat(this.formatString);
     this.g.append("g")
           .attr("class", "axis x")
           .attr("transform", "translate(0," + this.height + ")")
@@ -102,7 +104,7 @@ export class HeatmapComponent implements OnInit {
           .attr("transform", "rotate(30) ")
           .style("text-anchor", "start");
 
-    let yAxis = d3.axisLeft(this.y);
+    let yAxis = d3.axisLeft(this.y).tickFormat(this.formatString);
     this.g.append('g')
           .attr("class", "axis y")
           .call(yAxis);

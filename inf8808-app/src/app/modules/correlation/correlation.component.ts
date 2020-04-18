@@ -20,6 +20,8 @@ export class CorrelationComponent implements AfterViewInit {
   private xSP: string;
   private ySP: string;
 
+  private formatString = function(d) { return d.replace(/_/g, ' '); }
+
   constructor(private dataService: CorrelationDataService,
               private uiService: UiService) {
     this.innerWidth = window.innerWidth - 300;
@@ -75,7 +77,7 @@ export class CorrelationComponent implements AfterViewInit {
     this.ySP = y;
     this.dataService.scatterPlotData.then(data => {
       this.spConfig = {
-        title: 'Correlation between ' + this.xSP + " and " + this.ySP,
+        title: 'Correlation between ' + this.formatString(this.xSP) + " and " + this.formatString(this.ySP),
         axisYTitle: this.ySP,
         axisXTitle: this.xSP,
         width: this.innerWidth*0.4,
