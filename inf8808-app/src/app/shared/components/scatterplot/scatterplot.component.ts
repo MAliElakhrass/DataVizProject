@@ -77,7 +77,7 @@ export class ScatterplotComponent implements OnInit {
   }
 
   private createAxis(): void {
-    let xAxis = d3.axisBottom(this.x).tickFormat(d3.format(".2f"));
+    let xAxis = d3.axisBottom(this.x);
     
     this.g.append("g")
           .attr("class", "axis x")
@@ -147,7 +147,7 @@ export class ScatterplotComponent implements OnInit {
   }
 
   private updateAxis() {
-    let xAxis = d3.axisBottom(this.x).tickFormat(d3.format(".2f"));;
+    let xAxis = d3.axisBottom(this.x);
     this.g.select('.x.axis')
           .call(xAxis)
           .selectAll("text")

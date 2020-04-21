@@ -6,7 +6,7 @@
     <div id="Selection">
         <mat-form-field >
             <mat-label>Radius By Sales Of</mat-label>
-            <mat-select (selectionChange)="onRegionSelection($event.value)" [(value)]="regions[0].value">
+            <mat-select (selectionChange)="onRegionSelection($event.value)" [value]="regions[0].value">
                 <mat-option *ngFor="let region of regions" [value]="region.value">
                     {{region.viewValue}}
                 </mat-option>

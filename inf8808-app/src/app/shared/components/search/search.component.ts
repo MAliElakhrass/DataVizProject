@@ -45,8 +45,6 @@ export class SearchComponent implements OnInit {
         suggest(matches);
       },
       renderItem: function(item, search) {
-        console.log(item)
-
         search = search.replace(/['-\/\\^$*+?.()|[\]{}]/g, '\\$&');
         var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
         return `<div class='autocomplete-suggestion' data-val="`
